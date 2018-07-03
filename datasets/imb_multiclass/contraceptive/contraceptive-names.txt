@@ -1,0 +1,29 @@
+Contraceptive Method Choice Multi-class Imbalanced data set
+
+1: Description.
+
+An imbalanced version of the Contraceptive Method Choice data set, where there are some classes with a small number of examples while other classes have a large number of examples.
+
+2: Type.			Imbalanced	
+3: Origin.			Real world
+4: Instances.		1473
+5: Features.		9
+6: Classes.			3	
+7: Missing values.	No
+8: IR: 				1.89
+
+9: Header.
+
+@relation unknow
+@attribute a1 real [16.0, 49.0]
+@attribute a2 real [1.0, 4.0]
+@attribute a3 real [1.0, 4.0]
+@attribute a4 real [0.0, 16.0]
+@attribute a5 {0, 1}
+@attribute a6 {0, 1}
+@attribute a7 real [1.0, 4.0]
+@attribute a8 real [1.0, 4.0]
+@attribute a9 {0, 1}
+@attribute class {1, 2, 3}
+@inputs a1, a2, a3, a4, a5, a6, a7, a8, a9
+@outputs class

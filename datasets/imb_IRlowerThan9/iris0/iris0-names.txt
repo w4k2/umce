@@ -1,0 +1,23 @@
+Iris plants (Imbalanced: 0) dataset 
+
+1: Description.
+
+This is an imbalanced version of the well-known Iris data set. There are 2 classes defined: positive (the old iris-setosa class) and negative (the old iris-versicolor and  iris-virginica classes).
+
+2: Type.			Imbalanced	
+3: Origin.			Real world
+4: Instances.		150
+5: Features.		4
+6: Classes.			2	
+7: Missing values.	No
+
+8: Header.
+
+@relation iris0
+@attribute SepalLength real [4.3, 7.9]
+@attribute SepalWidth real [2.0, 4.4]
+@attribute PetalLength real [1.0, 6.9]
+@attribute PetalWidth real [0.1, 2.5]
+@attribute Class {positive, negative}
+@inputs SepalLength, SepalWidth, PetalLength, PetalWidth
+@outputs Class

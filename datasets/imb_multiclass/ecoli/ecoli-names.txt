@@ -1,0 +1,27 @@
+Ecoli Multi-class Imbalanced data set
+
+1: Description.
+
+An imbalanced version of the Ecoli data set, where there are some classes with a small number of examples while other classes have a large number of examples.
+
+2: Type.			Imbalanced	
+3: Origin.			Real world
+4: Instances.		336
+5: Features.		7
+6: Classes.			8	
+7: Missing values.	No
+8: IR: 				71.50
+
+9: Header.
+
+@relation Ecoli-Bal
+@attribute mcg real [0.0, 0.89]
+@attribute gvh real [0.16, 1.0]
+@attribute lip real [0.48, 1.0]
+@attribute chg real [0.5, 1.0]
+@attribute aac real [0.0, 0.88]
+@attribute alm1 real [0.03, 1.0]
+@attribute alm2 real [0.0, 0.99]
+@attribute class {cp, im, pp, imU, om, omL, imL, imS}
+@inputs mcg, gvh, lip, chg, aac, alm1, alm2
+@outputs class

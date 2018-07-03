@@ -1,0 +1,2 @@
+all:
+	python process.py

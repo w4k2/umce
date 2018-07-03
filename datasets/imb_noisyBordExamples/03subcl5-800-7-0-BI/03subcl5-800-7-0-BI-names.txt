@@ -1,0 +1,22 @@
+Minority Class with Rectangular Shape (examples = 800, IR = 7) data set
+
+1: Description.
+
+This is an artificial data set with 2 classes (the minority and the majority class) and 800 examples randomly and uniformly distributed in the two-dimensional space (both attributes were real-valued). The examples from the minority class are located inside rectangles following related works on small disjuncts.
+
+2: Type.				Imbalanced
+3: Origin.				Laboratory
+4: Instances.			800
+5: Features.			2
+6: Classes.				2
+7: Missing values.		No
+8: IR:					7
+
+9: Header.
+
+@relation 03subcl5-800-7-0-BI
+@attribute dim1 real [-84.0, 483.0]
+@attribute dim2 real [-282.0, 1481.0]
+@attribute class {0, 1}
+@inputs dim1, dim2
+@outputs class

@@ -1,0 +1,25 @@
+Thyroid Disease (New Thyroid) Multi-class Imbalanced data set
+
+1: Description.
+
+An imbalanced version of the Thyroid Disease (New Thyroid) data set, where there are some classes with a small number of examples while other classes have a large number of examples.
+
+2: Type.			Imbalanced	
+3: Origin.			Real world
+4: Instances.		215
+5: Features.		5
+6: Classes.				3
+7: Missing values.	No
+8: IR: 				4.84
+
+9: Header.
+
+@relation New-Thyroid-Bal
+@attribute T3resin integer [65, 144]
+@attribute thyroxin real [0.5, 25.3]
+@attribute triiodothyronine real [0.2, 10.0]
+@attribute thyroidstimulating real [0.1, 56.4]
+@attribute TSH_value real [-0.7, 56.3]
+@attribute class {normal, hyper, hypo}
+@inputs T3resin, thyroxin, triiodothyronine, thyroidstimulating, TSH_value
+@outputs class

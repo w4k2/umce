@@ -1,0 +1,38 @@
+Vehicle Silhouettes (Imbalanced: 0) data set
+
+1: Description.
+
+A imbalanced version of the Vehicle Silhouettes data set, where the possitive examples belong to class 0 (Van) and the negative examples belong to the rest.
+
+2: Type.			Imbalanced	
+3: Origin.			Real world
+4: Instances.		846
+5: Features.		18
+6: Classes.			2	
+7: Missing values.	No
+8: IR				3.23
+
+9: Header.
+
+@relation vehicle0
+@attribute Compactness integer [73, 119] 
+@attribute Circularity integer [33, 59]
+@attribute Distance_circularity integer [40, 112]
+@attribute Radius_ratio integer [104, 333]
+@attribute Praxis_aspect_ratio integer [47, 138]
+@attribute Max_length_aspect_ratio integer [2, 55]
+@attribute Scatter_ratio integer [112, 265]
+@attribute Elongatedness integer [26, 61]
+@attribute Praxis_rectangular integer [17, 29]
+@attribute Length_rectangular integer [118, 188]
+@attribute Major_variance integer [130, 320]
+@attribute Minor_variance integer [184, 1018]
+@attribute Gyration_radius integer [109, 268]
+@attribute Major_skewness integer [59, 135]
+@attribute Minor_skewness integer [0, 22]
+@attribute Minor_kurtosis integer [0, 41]
+@attribute Major_kurtosis integer [176, 206]
+@attribute Hollows_ratio integer [181, 211]
+@attribute Class {positive,negative}
+@inputs Compactness, Circularity, Distance_circularity, Radius_ratio, Praxis_aspect_ratio, Max_length_aspect_ratio, Scatter_ratio, Elongatedness, Praxis_rectangular, Length_rectangular, Major_variance, Minor_variance, Gyration_radius, Major_skewness, Minor_skewness, Minor_kurtosis, Major_kurtosis, Hollows_ratio
+@outputs Class

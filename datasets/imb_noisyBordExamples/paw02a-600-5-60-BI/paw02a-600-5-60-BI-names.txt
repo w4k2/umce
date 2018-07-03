@@ -1,0 +1,22 @@
+Minority Class with Shape as Paw (examples = 600, disturbance ratio = 60%, IR = 5) data set
+
+1: Description.
+
+This is an artificial data set with 2 classes (the minority and the majority class) and 600 examples randomly and uniformly distributed in the two-dimensional space (both attributes were real-valued). The minority class is decomposed into 3 elliptic subregions of varying cardinalities, where two subregions are located close to each other, and the remaining smaller sub-region is separated. The borders of sub-regions in the minority class are disturbed increasing the ratio of borderline examples from the minority class subregions (the disturbance ratio) in 60%.
+
+2: Type.				Imbalanced
+3: Origin.				Laboratory
+4: Instances.			600
+5: Features.			2
+6: Classes.				2
+7: Missing values.		No
+8: IR:					5
+
+9: Header.
+
+@relation paw02a-600-5-60-BI
+@attribute dim1 real [-62.0, 762.0]
+@attribute dim2 real [66.0, 990.0]
+@attribute class {0, 1}
+@inputs dim1, dim2
+@outputs class

@@ -1,0 +1,36 @@
+Pen-Based Recognition of Handwritten Digits Multi-class Imbalanced data set
+
+1: Description.
+
+An imbalanced version of the Pen-Based Recognition of Handwritten Digits data set, where there are some classes with a small number of examples while other classes have a large number of examples.
+
+2: Type.			Imbalanced	
+3: Origin.			Real world
+4: Instances.		1100
+5: Features.		16
+6: Classes.			10	
+7: Missing values.	No
+8: IR: 				1.95
+
+9: Header.
+
+@relation unknow
+@attribute at1 real [0.0, 100.0]
+@attribute at2 real [0.0, 100.0]
+@attribute at3 real [0.0, 100.0]
+@attribute at4 real [0.0, 100.0]
+@attribute at5 real [0.0, 100.0]
+@attribute at6 real [0.0, 100.0]
+@attribute at7 real [0.0, 100.0]
+@attribute at8 real [0.0, 100.0]
+@attribute at9 real [0.0, 100.0]
+@attribute at10 real [0.0, 100.0]
+@attribute at11 real [0.0, 100.0]
+@attribute at12 real [0.0, 100.0]
+@attribute at13 real [0.0, 100.0]
+@attribute at14 real [0.0, 100.0]
+@attribute at15 real [0.0, 100.0]
+@attribute at16 real [0.0, 100.0]
+@attribute class {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+@inputs at1, at2, at3, at4, at5, at6, at7, at8, at9, at10, at11, at12, at13, at14, at15, at16
+@outputs class

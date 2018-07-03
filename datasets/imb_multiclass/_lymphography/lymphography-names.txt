@@ -1,0 +1,38 @@
+Lymphography Multi-class Imbalanced data set
+
+1: Description.
+
+An imbalanced version of the Lymphography data set, where there are some classes with a small number of examples while other classes have a large number of examples.
+
+2: Type.			Imbalanced	
+3: Origin.			Real world
+4: Instances.		148
+5: Features.		18
+6: Classes.			4	
+7: Missing values.	No
+8: IR: 				40.50
+
+9: Header.
+
+@relation unknow
+@attribute 'lymphatics' {normal, arched, deformed, displaced}
+@attribute 'block_of_affere' {no, yes}
+@attribute 'bl_of_lymph_c' {no, yes}
+@attribute 'bl_of_lymph_s' {no, yes}
+@attribute 'by_pass' {no, yes}
+@attribute 'extravasates' {no, yes}
+@attribute 'regeneration_of' {no, yes}
+@attribute 'early_uptake_in' {no, yes}
+@attribute 'lym_nodes_dimin' real [0.0, 3.0]
+@attribute 'lym_nodes_enlar' real [1.0, 4.0]
+@attribute 'changes_in_lym' {bean, oval, round}
+@attribute 'defect_in_node' {no, lacunar, lac_margin, lac_central}
+@attribute 'changes_in_node' {no, lacunar, lac_margin, lac_central}
+@attribute 'changes_in_stru' {no, grainy, drop_like, coarse, diluted, reticular, stripped, faint}
+@attribute 'special_forms' {no, chalices, vesicles}
+@attribute 'dislocation_of' {no, yes}
+@attribute 'exclusion_of_no' {no, yes}
+@attribute 'no_of_nodes_in' real [1.0, 8.0]
+@attribute 'class' {normal, metastases, malign_lymph, fibrosis}
+@inputs 'lymphatics', 'block_of_affere', 'bl_of_lymph_c', 'bl_of_lymph_s', 'by_pass', 'extravasates', 'regeneration_of', 'early_uptake_in', 'lym_nodes_dimin', 'lym_nodes_enlar', 'changes_in_lym', 'defect_in_node', 'changes_in_node', 'changes_in_stru', 'special_forms', 'dislocation_of', 'exclusion_of_no', 'no_of_nodes_in'
+@outputs 'class'

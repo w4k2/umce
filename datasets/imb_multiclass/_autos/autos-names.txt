@@ -1,0 +1,46 @@
+Automobile Multi-class Imbalanced data set
+
+1: Description.
+
+An imbalanced version of the Automobile data set without missing values, where there are some classes with a small number of examples while other classes have a large number of examples.
+
+2: Type.			Imbalanced	
+3: Origin.			Real world
+4: Instances.		159
+5: Features.		25
+6: Classes.			6	
+7: Missing values.	No
+8: IR: 				16.00
+
+9: Header.
+
+@relation unknow
+@attribute normalized-losses real [65.0, 256.0]
+@attribute make {alfa-romero, audi, bmw, chevrolet, dodge, honda, isuzu, jaguar, mazda, mercedes-benz, mercury, mitsubishi, nissan, peugot, plymouth, porsche, renault, saab, subaru, toyota, volkswagen, volvo}
+@attribute fuel-type {diesel, gas}
+@attribute aspiration {std, turbo}
+@attribute num-of-doors {four, two}
+@attribute body-style {hardtop, wagon, sedan, hatchback, convertible}
+@attribute drive-wheels {4wd, fwd, rwd}
+@attribute engine-location {front, rear}
+@attribute wheel-base real [86.6, 115.6]
+@attribute length real [141.1, 202.6]
+@attribute width real [60.3, 71.7]
+@attribute height real [49.4, 59.8]
+@attribute curb-weight real [1488.0, 4066.0]
+@attribute engine-type {dohc, dohcv, l, ohc, ohcf, ohcv, rotor}
+@attribute num-of-cylinders {eight, five, four, six, three, twelve, two}
+@attribute engine-size real [61.0, 258.0]
+@attribute fuel-system {1bbl, 2bbl, 4bbl, idi, mfi, mpfi, spdi, spfi}
+@attribute bore real [2.54, 3.94]
+@attribute stroke real [2.07, 4.17]
+@attribute compression-ratio real [7.0, 23.0]
+@attribute horsepower real [48.0, 200.0]
+@attribute peak-rpm real [4150.0, 6600.0]
+@attribute city-mpg real [15.0, 49.0]
+@attribute highway-mpg real [18.0, 54.0]
+@attribute price real [5118.0, 35056.0]
+@attribute symboling {-2, -1, 0, 1, 2, 3}
+@inputs normalized-losses, make, fuel-type, aspiration, num-of-doors, body-style, drive-wheels, engine-location, wheel-base, length, width, height, curb-weight, engine-type, num-of-cylinders, engine-size, fuel-system, bore, stroke, compression-ratio, horsepower, peak-rpm, city-mpg, highway-mpg, price
+@outputs symboling
+

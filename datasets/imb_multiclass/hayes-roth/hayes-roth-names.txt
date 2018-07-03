@@ -1,0 +1,24 @@
+Hayes-Roth Multi-class Imbalanced data set
+
+1: Description.
+
+An imbalanced version of the Hayes-Roth data set, where there are some classes with a small number of examples while other classes have a large number of examples.
+
+2: Type.			Imbalanced	
+3: Origin.			Laboratory
+4: Instances.		132
+5: Features.		4
+6: Classes.			3	
+7: Missing values.	No
+8: IR: 				1.70
+
+9: Header.
+
+@relation Hayes-Roth database
+@attribute hobby integer [1, 3]
+@attribute age integer [1, 4]
+@attribute educationalLevel integer [1, 4]
+@attribute maritalStatus integer [1, 4]
+@attribute class {1,2,3}
+@inputs hobby, age, educationalLevel, maritalStatus
+@outputs class

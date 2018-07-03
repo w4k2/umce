@@ -1,0 +1,28 @@
+Pima (Imbalanced) data set
+
+1: Description.
+
+A imbalanced version of the Pima data set, where the classes has been renamed to positive and negative.
+
+2: Type.			Imbalanced	
+3: Origin.			Real world
+4: Instances.		768
+5: Features.		8
+6: Classes.			2	
+7: Missing values.	No
+8: IR: 				1.90
+
+9: Header.
+
+@relation pima
+@attribute Preg real [0.0, 17.0]
+@attribute Plas real [0.0, 199.0]
+@attribute Pres real [0.0, 122.0]
+@attribute Skin real [0.0, 99.0]
+@attribute Insu real [0.0, 846.0]
+@attribute Mass real [0.0, 67.1]
+@attribute Pedi real [0.078, 2.42]
+@attribute Age real [21.0, 81.0]
+@attribute Class {positive,negative}
+@inputs Preg, Plas, Pres, Skin, Insu, Mass, Pedi, Age
+@outputs Class

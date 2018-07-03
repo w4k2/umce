@@ -1,0 +1,41 @@
+Thyroid Disease (thyroid0387) Multi-class Imbalanced data set
+
+1: Description.
+
+An imbalanced version of the Thyroid Disease (thyroid0387) data set, where there are some classes with a small number of examples while other classes have a large number of examples.
+
+2: Type.			Imbalanced	
+3: Origin.			Real world
+4: Instances.		720
+5: Features.		21
+6: Classes.			3	
+7: Missing values.	No
+8: IR: 				36.94
+
+9: Header.
+
+@relation thyroid
+@attribute Sintoma1 real [0.01, 0.97]
+@attribute Sintoma2 integer [0, 1]
+@attribute Sintoma3 integer [0, 1]
+@attribute Sintoma4 integer [0, 1]
+@attribute Sintoma5 integer [0, 1]
+@attribute Sintoma6 integer [0, 1]
+@attribute Sintoma7 integer [0, 1]
+@attribute Sintoma8 integer [0, 1]
+@attribute Sintoma9 integer [0, 1]
+@attribute Sintoma10 integer [0, 1]
+@attribute Sintoma11 integer [0, 1]
+@attribute Sintoma12 integer [0, 1]
+@attribute Sintoma13 integer [0, 1]
+@attribute Sintoma14 integer [0, 1]
+@attribute Sintoma15 integer [0, 1]
+@attribute Sintoma16 integer [0, 1]
+@attribute Sintoma17 real [0.0, 0.53]
+@attribute Sintoma18 real [0.0005, 0.18]
+@attribute Sintoma19 real [0.0020, 0.6]
+@attribute Sintoma20 real [0.017, 0.233]
+@attribute Sintoma21 real [0.0020, 0.642]
+@attribute class {1,2,3}
+@inputs Sintoma1, Sintoma2, Sintoma3, Sintoma4, Sintoma5, Sintoma6, Sintoma7, Sintoma8, Sintoma9, Sintoma10, Sintoma11, Sintoma12, Sintoma13, Sintoma14, Sintoma15, Sintoma16, Sintoma17, Sintoma18, Sintoma19, Sintoma20, Sintoma21
+@outputs class

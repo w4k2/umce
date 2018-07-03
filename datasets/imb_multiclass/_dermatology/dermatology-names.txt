@@ -1,0 +1,52 @@
+Dermatology Multi-class Imbalanced data set
+
+1: Description.
+
+An imbalanced version of the Dermatology data set, where there are some classes with a small number of examples while other classes have a large number of examples.
+
+2: Type.			Imbalanced	
+3: Origin.			Real world
+4: Instances.		366
+5: Features.		33
+6: Classes.			6	
+7: Missing values.	Yes
+8: IR: 				5.55
+
+9: Header.
+
+@relation dermatology
+@attribute a1 integer[0,3]
+@attribute a2 integer[0,3]
+@attribute a3 integer[0,3]
+@attribute a4 integer[0,3]
+@attribute a5 integer[0,3]
+@attribute a6 integer[0,3]
+@attribute a7 integer[0,3]
+@attribute a8 integer[0,3]
+@attribute a9 integer[0,3]
+@attribute a10 integer[0,3]
+@attribute a11 integer[0,1]
+@attribute a12 integer[0,3]
+@attribute a13 integer[0,2]
+@attribute a14 integer[0,3]
+@attribute a15 integer[0,3]
+@attribute a16 integer[0,3]
+@attribute a17 integer[0,3]
+@attribute a18 integer[0,3]
+@attribute a19 integer[0,3]
+@attribute a20 integer[0,3]
+@attribute a21 integer[0,3]
+@attribute a22 integer[0,3]
+@attribute a23 integer[0,3]
+@attribute a24 integer[0,3]
+@attribute a25 integer[0,3]
+@attribute a26 integer[0,3]
+@attribute a27 integer[0,3]
+@attribute a28 integer[0,3]
+@attribute a29 integer[0,3]
+@attribute a30 integer[0,3]
+@attribute a31 integer[0,3]
+@attribute a32 integer[0,3]
+@attribute a33 integer[0,3]
+@attribute a34 integer[0,75]
+@attribute class integer[1,6]

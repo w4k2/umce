@@ -1,0 +1,39 @@
+Image Segmentation (Imbalanced: 0) data set
+
+1: Description.
+
+A imbalanced version of the Image Segmentation data set, where the possitive examples belong to class 1 and the negative examples belong to the rest.
+
+2: Type.			Imbalanced	
+3: Origin.			Real world
+4: Instances.		2308
+5: Features.		19
+6: Classes.			2	
+7: Missing values.	No
+8: IR				6.01
+
+9: Header.
+
+@relation segment0
+@attribute Region-centroid-col real [1.0, 254.0]
+@attribute Region-centroid-row real [11.0, 251.0]
+@attribute Region-pixel-count real [9.0, 10.0]
+@attribute Short-line-density-5 real [0.0, 0.33333334]
+@attribute Short-line-density-2 real [0.0, 0.22222222]
+@attribute Vedge-mean real [0.0, 29.222221]
+@attribute Vegde-sd real [0.0, 991.7184]
+@attribute Hedge-mean real [0.0, 44.722225]
+@attribute Hedge-sd real [-1.5894573E-8, 1386.3292]
+@attribute Intensity-mean real [0.0, 143.44444]
+@attribute Rawred-mean real [0.0, 137.11111]
+@attribute Rawblue-mean real [0.0, 150.88889]
+@attribute Rawgreen-mean real [0.0, 142.55556]
+@attribute Exred-mean real [-49.666668, 9.888889]
+@attribute Exblue-mean real [-12.444445, 82.0]
+@attribute Exgreen-mean real [-33.88889, 24.666666]
+@attribute Value-mean real [0.0, 150.88889]
+@attribute Saturatoin-mean real [0.0, 1.0]
+@attribute Hue-mean real [-3.0441751, 2.9124804]
+@attribute Class {positive, negative} 
+@inputs Region-centroid-col, Region-centroid-row, Region-pixel-count, Short-line-density-5, Short-line-density-2, Vedge-mean, Vegde-sd, Hedge-mean, Hedge-sd, Intensity-mean, Rawred-mean, Rawblue-mean, Rawgreen-mean, Exred-mean, Exblue-mean, Exgreen-mean, Value-mean, Saturatoin-mean, Hue-mean
+@outputs Class

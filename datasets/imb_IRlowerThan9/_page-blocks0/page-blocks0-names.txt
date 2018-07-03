@@ -1,0 +1,30 @@
+Page Blocks (Imbalanced: 0) data set
+
+1: Description.
+
+A imbalanced version of the Page Blocks data set, where the negative examples belong to class text and the positive examples belong to the rest.
+
+2: Type.			Imbalanced	
+3: Origin.			Real world
+4: Instances.		5472
+5: Features.		10
+6: Classes.			2	
+7: Missing values.	No
+8: IR: 				8.77
+
+9: Header.
+
+@relation page-blocks0
+@attribute Height integer [1, 804]
+@attribute Lenght integer [1, 553]
+@attribute Area integer [7, 143993]
+@attribute Eccen real [0.0070, 537.0]
+@attribute P_black real [0.052, 1.0]
+@attribute P_and real [0.062, 1.0]
+@attribute Mean_tr real [1.0, 4955.0]
+@attribute Blackpix integer [1, 33017]
+@attribute Blackand integer [7, 46133]
+@attribute Wb_trans integer [1, 3212]
+@attribute Class {positive,negative}
+@inputs Height, Lenght, Area, Eccen, P_black, P_and, Mean_tr, Blackpix, Blackand, Wb_trans
+@output Class
