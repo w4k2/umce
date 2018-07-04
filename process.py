@@ -1,84 +1,117 @@
-import os
 import helper as h
-import exposing
 import numpy as np
-from sklearn import svm, model_selection
-import matplotlib.pyplot as plt
-from sklearn.model_selection import GridSearchCV
+import method as m
+import csv
+from sklearn import svm, base, neighbors, metrics, naive_bayes, tree, neural_network
+from imblearn import under_sampling, over_sampling, ensemble
 
 # Prepare experiments
-ds_dir = "datasets"
-base_clf = svm.SVC
-ds_groups = [
+base_clfs = {
+    #"SVC" : svm.SVC(probability=True, gamma='scale'),
+    "GNB" : naive_bayes.GaussianNB(),
+    #"kNN" : neighbors.KNeighborsClassifier(),
+    #"DTC" : tree.DecisionTreeClassifier(),
+    #"MLP" : neural_network.MLPClassifier(),
+}
+datasets = h.datasets_for_groups([
     "imb_IRhigherThan9p1",
     "imb_IRhigherThan9p2",
     "imb_IRlowerThan9",
-    "imb_multiclass" ]
-table_file = open("tables/results.tex", "w")
+])
 
-# Iterating groups
-for group_idx, ds_group in enumerate(ds_groups):
-    group_path = "%s/%s" % (ds_dir, ds_group)
-    print("## Group %s" % ds_group)
+for bclf in base_clfs:
+    print(bclf)
+    base_clf = base_clfs[bclf]
+    with open('results/%s.csv' % bclf, 'w') as csvfile:
+        writer = csv.writer(csvfile, delimiter=',')
+        writer.writerow(['dataset','reg','regd','us','usd','os','osd',
+                             'ens','ensd','wens','wensd','cwens','cwensd'])
+        for dataset in datasets:
+            print(dataset)
+            X, y, X_, y_ = h.load_dataset(dataset)
+            r_bac = []
 
-    # Iterating datasets in group
-    ds_list = sorted(os.listdir(group_path))
-    for ds_idx, ds_name in enumerate(ds_list):
-        if ds_name[0] == '.' or ds_name[0] == '_':
-            continue
-        h.notify(ds_name, "%i/%i (%i/%i)" % (
-            ds_idx + 1,len(ds_list),
-            group_idx + 1,len(ds_groups)
-        ))
-        exit()
+            e_bac = []
+            f_bac = []
+            g_bac = []
 
-        print("\n### %s dataset" % ds_name)
-        scores = np.zeros((len(clfs), 5))
+            re_bac = []
+            rf_bac = []
+            rg_bac = []
 
-        # Load dataset
-        X, y = h.load_keel("%s/%s/%s.dat" % (
-            group_path, ds_name, ds_name
-        ))
+            os_bac = []
+            us_bac = []
+            for fold in range(5):
+                X_train, X_test = X_[fold]
+                y_train, y_test = y_[fold]
 
-        # GridGridSearchCV
-        print("\nBest parameters")
-        ee = exposing.EE()
-        gs = GridSearchCV(ee, h.spams())
-        gs.fit(X, y)
-        best_params = gs.best_params_
-        print(">\t%s" % best_params)
+                # Evaluating regular clf
+                regular_clf = base.clone(base_clf)
+                regular_clf.fit(X_train, y_train)
+                regular_pred = regular_clf.predict(X_test)
+                regular_bac = metrics.balanced_accuracy_score(y_test,regular_pred)
+                #print("Regular bac: %.3f" % regular_bac)
+                r_bac.append(regular_bac)
 
-        for i in range(1,6):
-            X_train, y_train = h.load_keel("%s/%s/%s-5-fold/%s-5-%itra.dat" % (
-                group_path, ds_name, ds_name, ds_name, i
-            ))
-            X_test, y_test = h.load_keel("%s/%s/%s-5-fold/%s-5-%itst.dat" % (
-                group_path, ds_name, ds_name, ds_name, i
-            ))
+                # Evaluating over and undersampling
+                us = under_sampling.RandomUnderSampler()
+                os = over_sampling.RandomOverSampler()
+                X_us, y_us = us.fit_sample(X_train, y_train)
+                X_os, y_os = os.fit_sample(X_train, y_train)
+                us_clf = base.clone(base_clf)
+                os_clf = base.clone(base_clf)
+                us_clf.fit(X_us, y_us)
+                os_clf.fit(X_os, y_os)
+                us_pred = us_clf.predict(X_test)
+                os_pred = os_clf.predict(X_test)
+                us_bac.append(metrics.balanced_accuracy_score(y_test,us_pred))
+                os_bac.append(metrics.balanced_accuracy_score(y_test,os_pred))
 
-            for j, clf_name in enumerate(clfs):
-                if clf_name == 'EEC':
-                    clf = exposing.EE(approach=best_params['approach'],
-                                      fuser=best_params['fuser'],
-                                      grain=best_params['grain'],
-                                      focus = best_params['focus'],
-                                      a_steps = best_params['a_steps'])
-                    ee = clf
-                else:
-                    clf = clfs[clf_name]()
-                clf.fit(X_train, y_train)
-                score = clf.score(X_test, y_test)
-                scores[j,i-1] = score
+                # Evaluating method
+                ens = m.UndersampledEnsemble(base_clf, dataset[1])
+                ens.fit(X_train, y_train)
+                ens.test(X_test)
 
-        mean_scores = np.mean(scores, axis = 1)
-        std_scores = np.std(scores, axis = 1)
+                prediction = ens.predict(X_test)
+                prediction_w = ens.predict_bac_weighted(X_test)
+                prediction_c = ens.predict_c_weighted(X_test)
 
-        figname, fignameb = h.plot(mean_scores, std_scores, ds_group,
-                                   ds_name, clfs, ee)
+                ens.reduce()
 
-        h.markdown(figname,fignameb,clfs, mean_scores, std_scores)
+                rprediction = ens.predict(X_test)
+                rprediction_w = ens.predict_bac_weighted(X_test)
+                rprediction_c = ens.predict_c_weighted(X_test)
 
-        tl = h.texline(scores, clfs, ds_name, best_params)
-        print(tl)
-        table_file.write(tl)
-table_file.close()
+                ensemble_bac = metrics.balanced_accuracy_score(y_test,prediction)
+                fnsemble_bac = metrics.balanced_accuracy_score(y_test,prediction_w)
+                gnsemble_bac = metrics.balanced_accuracy_score(y_test,prediction_c)
+
+                rensemble_bac = metrics.balanced_accuracy_score(y_test,rprediction)
+                rfnsemble_bac = metrics.balanced_accuracy_score(y_test,rprediction_w)
+                rgnsemble_bac = metrics.balanced_accuracy_score(y_test,rprediction_c)
+
+                e_bac.append(ensemble_bac)
+                f_bac.append(fnsemble_bac)
+                g_bac.append(gnsemble_bac)
+
+                re_bac.append(rensemble_bac)
+                rf_bac.append(rfnsemble_bac)
+                rg_bac.append(rgnsemble_bac)
+
+            print("REG (%.3f +- %.3f)" % (np.mean(r_bac), np.std(r_bac)))
+            print("US_ (%.3f +- %.3f)" % (np.mean(us_bac), np.std(us_bac)))
+            print("OS_ (%.3f +- %.3f)\n--- Regular" % (np.mean(os_bac), np.std(os_bac)))
+            print("ENS (%.3f +- %.3f)" % (np.mean(e_bac), np.std(e_bac)))
+            print("FNS (%.3f +- %.3f)" % (np.mean(f_bac), np.std(f_bac)))
+            print("GNS (%.3f +- %.3f)\n--- Reduced" % (np.mean(g_bac), np.std(g_bac)))
+            print("ENS (%.3f +- %.3f)" % (np.mean(re_bac), np.std(re_bac)))
+            print("FNS (%.3f +- %.3f)" % (np.mean(rf_bac), np.std(rf_bac)))
+            print("GNS (%.3f +- %.3f)\n" % (np.mean(rg_bac), np.std(rg_bac)))
+
+            writer.writerow([dataset[1]] + ["%.3f" % i for i in
+                                 [np.mean(r_bac),np.std(r_bac),
+                                 np.mean(us_bac),np.std(us_bac),
+                                 np.mean(os_bac),np.std(os_bac),
+                                 np.mean(e_bac),np.std(e_bac),
+                                 np.mean(f_bac),np.std(f_bac),
+                                 np.mean(g_bac),np.std(g_bac)]])

@@ -2,6 +2,7 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 from scipy import stats
+ds_dir = "datasets"
 
 def load_keel(string, separator=","):
     try:
@@ -138,3 +139,33 @@ def texline(scores, clfs, ds_name, best_params):
         ds_name.replace('_','-'), best_params['approach'], best_params['fuser'],
         best_params["grain"], best_params["focus"],
         best_params["a_steps"], b)
+
+def datasets_for_groups(ds_groups):
+    datasets = []
+    for group_idx, ds_group in enumerate(ds_groups):
+        group_path = "%s/%s" % (ds_dir, ds_group)
+        ds_list = sorted(os.listdir(group_path))
+        for ds_idx, ds_name in enumerate(ds_list):
+            if ds_name[0] == '.' or ds_name[0] == '_':
+                continue
+            datasets.append((group_path, ds_name))
+    return datasets
+
+def load_dataset(dataset):
+    group_path, ds_name = dataset
+    # Load full dataset
+    X, y = load_keel("%s/%s/%s.dat" % (
+        group_path, ds_name, ds_name
+    ))
+    X_, y_ = [], []
+    # Load and process folds
+    for i in range(1,6):
+        X_train, y_train = load_keel("%s/%s/%s-5-fold/%s-5-%itra.dat" % (
+            group_path, ds_name, ds_name, ds_name, i
+        ))
+        X_test, y_test = load_keel("%s/%s/%s-5-fold/%s-5-%itst.dat" % (
+            group_path, ds_name, ds_name, ds_name, i
+        ))
+        X_.append((X_train, X_test))
+        y_.append((y_train, y_test))
+    return (X, y, X_, y_)
