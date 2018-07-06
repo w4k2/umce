@@ -1,2 +1,2 @@
 all:
-	python process.py
+	python -W ignore process.py

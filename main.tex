@@ -1,0 +1,109 @@
+\documentclass[landscape,11pt]{article}
+\usepackage{csvsimple}
+\usepackage{booktabs}
+\usepackage[landscape,margin=0in]{geometry}
+\begin{document}
+\tiny
+
+Duża skala niezbalansowania prowadzi to sprowadzenia klasy mniejszościowej to liczności, która nie pozwala na efektywne wykorzystanie bardziej złożonych metod, takich jak ADASYN czy SMOTE.
+
+Duże niezbalansowanie powoduje też znaczny wzrost liczności komitetu, a więc poza jego ważeniem zaproponowana została redukcja do modelu dwuetapowego.
+\newpage
+
+\textbf{GNB}\\
+\begin{tabular}{l||c|c|c||c|c|c|c|c||c|c|c|c|c||c|c|c|c|c||c|c|c|c|c}\toprule%
+	\bfseries Dataset & \bfseries Reg & \bfseries OS & \bfseries US & 
+	\multicolumn{10}{c||}{\bfseries Without OS} &
+	\multicolumn{10}{c}{\bfseries With OS} \\
+	
+	& & & & 
+	\multicolumn{5}{c||}{\bfseries Nonreduced} &
+	\multicolumn{5}{c||}{\bfseries Reduced} &
+	\multicolumn{5}{c||}{\bfseries Nonreduced} &
+	\multicolumn{5}{c}{\bfseries Reduced} \\
+	
+	& & & &
+	reg&wei&cwei&nwei&ncwei&
+	reg&wei&cwei&nwei&ncwei&
+	reg&wei&cwei&nwei&ncwei&
+	reg&wei&cwei&nwei&ncwei
+	\\\midrule
+	
+	\csvreader[head to column names]{results/GNB.csv}{}%
+	{\dataset & \reg & \os & \us &
+	
+	\ereg & \ewei & \ecwei & \enwei & \encwei &
+	\eregr & \eweir & \ecweir & \enweir & \encweir &
+	\eregos & \eweios & \ecweios & \enweios & \encweios & 
+	\eregros & \eweiros & \ecweiros & \enweiros & \encweiros
+	
+	\\}%
+	\\\bottomrule	
+\end{tabular}
+\newpage
+
+\textbf{kNN}\\
+\begin{tabular}{l||c|c|c||c|c|c|c|c||c|c|c|c|c||c|c|c|c|c||c|c|c|c|c}\toprule%
+	\bfseries Dataset & \bfseries Reg & \bfseries OS & \bfseries US & 
+	\multicolumn{10}{c||}{\bfseries Without OS} &
+	\multicolumn{10}{c}{\bfseries With OS} \\
+	
+	& & & & 
+	\multicolumn{5}{c||}{\bfseries Nonreduced} &
+	\multicolumn{5}{c||}{\bfseries Reduced} &
+	\multicolumn{5}{c||}{\bfseries Nonreduced} &
+	\multicolumn{5}{c}{\bfseries Reduced} \\
+	
+	& & & &
+	reg&wei&cwei&nwei&ncwei&
+	reg&wei&cwei&nwei&ncwei&
+	reg&wei&cwei&nwei&ncwei&
+	reg&wei&cwei&nwei&ncwei
+	\\\midrule
+	
+	\csvreader[head to column names]{results/kNN.csv}{}%
+	{\dataset & \reg & \os & \us &
+	
+	\ereg & \ewei & \ecwei & \enwei & \encwei &
+	\eregr & \eweir & \ecweir & \enweir & \encweir &
+	\eregos & \eweios & \ecweios & \enweios & \encweios & 
+	\eregros & \eweiros & \ecweiros & \enweiros & \encweiros
+	
+	\\}%
+	\\\bottomrule	
+\end{tabular}
+\newpage
+
+\textbf{DTC}\\
+\begin{tabular}{l||c|c|c||c|c|c|c|c||c|c|c|c|c||c|c|c|c|c||c|c|c|c|c}\toprule%
+	\bfseries Dataset & \bfseries Reg & \bfseries OS & \bfseries US & 
+	\multicolumn{10}{c||}{\bfseries Without OS} &
+	\multicolumn{10}{c}{\bfseries With OS} \\
+	
+	& & & & 
+	\multicolumn{5}{c||}{\bfseries Nonreduced} &
+	\multicolumn{5}{c||}{\bfseries Reduced} &
+	\multicolumn{5}{c||}{\bfseries Nonreduced} &
+	\multicolumn{5}{c}{\bfseries Reduced} \\
+	
+	& & & &
+	reg&wei&cwei&nwei&ncwei&
+	reg&wei&cwei&nwei&ncwei&
+	reg&wei&cwei&nwei&ncwei&
+	reg&wei&cwei&nwei&ncwei
+	\\\midrule
+	
+	\csvreader[head to column names]{results/DTC.csv}{}%
+	{\dataset & \reg & \os & \us &
+	
+	\ereg & \ewei & \ecwei & \enwei & \encwei &
+	\eregr & \eweir & \ecweir & \enweir & \encweir &
+	\eregos & \eweios & \ecweios & \enweios & \encweios & 
+	\eregros & \eweiros & \ecweiros & \enweiros & \encweiros
+	
+	\\}%
+	\\\bottomrule	
+\end{tabular}
+    
+        
+\end{document}
