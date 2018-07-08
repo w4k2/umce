@@ -124,11 +124,11 @@ Zaawansowane metody oversamplingu nie są możliwe do zastosowania przy sytuacji
 
 Idea k-foldowego podziału klasy większościowej. Wyznaczanie wartości k jako zaokrąglonego IR. Atut w postaci wykorzystania wszystkich wzorców, gdzie tworzymy komitet k zbalansowanych zbiorów.
 
-\begin{figure}[htbp]
+\begin{figure}[!h]
 \floatconts
   {fig:teximage}
   {\caption{Scheme of using k-Fold division in ensemble construction}}
-  {\includeteximage[angle=0]{figures/ensemble_scheme}}
+  {\input{figures/ensemble_scheme}}
 \end{figure}
 
 Wyliczanie wag. Accuracy się nie sprawdzi, więc BAC.
@@ -152,6 +152,8 @@ Jeśli klasyfikujemy nie jeden wzorzec, a wiele, wagi mogą być też dla pojed
 Potencjał kontrastu dla danych strumieniowych.
 
 Proponowane metody decyzyjne.
+
+W konstrukcji reguły decyzyjnej opieramy się na wsparciu dla klasy pozytywnej.
 
 \begin{itemize}
 	\item - akumulacja wsparć,
