@@ -122,6 +122,22 @@ The main contributions of this work are:
 
 Zaawansowane metody oversamplingu nie są możliwe do zastosowania przy sytuacji, gdzie w zbiorze uczącym znajduje się zaledwie kilka wzorców.
 
+\begin{algorithm}
+\caption{Training classifier ensemble from multiple balanced training datasets separated from one imbalanced dataset of binary problem}\label{alg:moore}
+Given a dataset $DS$:
+\begin{enumerate*}
+	\item Divide $DS$ into subsets of minority- $MinC$ and majority-class $MajC$
+	\item Calculate imbalanced ratio $IR$ as the proportion of the number of patterns in $MinC$ and $MajC$ 
+	\item Establish $k$ by rounding $IR$ to nearest integer
+	\item Perform a \emph{shuffled k-fold division} of $MajC$ to produce a set of subsets $MajC_1, MajC_2, \ldots, MajC_k$ 
+	\item For every $i$ in range to $k$
+	\begin{enumerate*}
+		\item Join $MajC_i$ with $MinC$ to prepare a training set $TS_i$,
+		\item Train classifier $\Psi_i$ on $TS_i$ and add it into ensemble
+	\end{enumerate*}
+\end{enumerate*}
+\end{algorithm}
+
 Idea k-foldowego podziału klasy większościowej. Wyznaczanie wartości k jako zaokrąglonego IR. Atut w postaci wykorzystania wszystkich wzorców, gdzie tworzymy komitet k zbalansowanych zbiorów.
 
 \begin{figure}[!h]
@@ -156,11 +172,11 @@ Proponowane metody decyzyjne.
 W konstrukcji reguły decyzyjnej opieramy się na wsparciu dla klasy pozytywnej.
 
 \begin{itemize}
-	\item - akumulacja wsparć,
-	\item - akumulacja ważona po członkach komitetu, gdzie waga to BAC dla zbioru uczącego,
-	\item - akumulacja ważona po wzorcach, przez kontrast,
-	\item - akumulacja znormalizowanych wag członków,
-	\item - iloczyn znormalizowanych wag i kontrastu
+	\item - reg akumulacja wsparć,
+	\item - wei akumulacja ważona po członkach komitetu, gdzie waga to BAC dla zbioru uczącego,
+	\item - con akumulacja ważona po wzorcach, przez kontrast,
+	\item - nor akumulacja znormalizowanych wag członków,
+	\item - nci iloczyn znormalizowanych wag i kontrastu
 \end{itemize}
 
 Duża skala niezbalansowania to duża wielkość komitetu (ilustracja zależności na wykresie). Przyda się więc przycinanie (pruning).
@@ -177,9 +193,54 @@ Wyjaśnienie kwestii wspomnianej wcześniej i uzasadnienie pominięcia jej anali
 \section{Experiment design}
 \label{sec:intro}
 
-Wybrane zbiory danych.
+For the experimental evaluation of the proposed method, a collection of data sets made available with \textsc{keel} \citep{alcala2011keel} was used, focusing on a section containing highly unbalanced data, with \textsc{ir} greater than 9 \citep{fernandez2009hierarchical}. From among the available datasets, 40 were selected presenting only binary problems with quantitative attributes. A review of selected datasets, including information on their number of features, the number of patterns in each class and the unbalance ratio is presented in Table 1.
+
+\begin{table}[!h]
+\footnotesize
+\centering
+\setlength{\tabcolsep}{3.5pt}
+\def\arraystretch{1}
+\begin{tabular}{@{}|rl|c|ccc|c|}\hline%
+
+\multirow{2}{*}{\bfseries \#} &
+\multirow{2}{*}{\bfseries Dataset} &
+\multirow{2}{*}{\bfseries Features} &
+\multicolumn{3}{c|}{\bfseries Samples} &
+\multirow{2}{*}{\bfseries \textsc{ir}} 	
+\\
+
+& & & 
+\multicolumn{1}{c}{\textsc{all}} & 
+\multicolumn{1}{c}{\textsc{maj}} & 
+\multicolumn{1}{c|}{\textsc{min}} &
+
+	\\\hline\hline
+	
+	\csvreader[head to column names,
+	           late after line=\csvifoddrow{\\}{\\\rowcolor{gray!10!white}},
+	           late after last line = \\\hline]
+	{results/datasets.csv}{}%
+	{
+	
+	\idx & \multicolumn{1}{l|}{\emph{\dbname}} & \features & 
+	\multicolumn{1}{c}{\samples} & 
+	\multicolumn{1}{c}{\majority} & 
+	\multicolumn{1}{c|}{\minority} & \ir
+	
+	}%
+\end{tabular}
+\caption{Summary of imbalanced datasets chosen for evaluation}
+\end{table}
+
+As may be observed after the Table analysis, the experiments will be based on data sets with relatively small spatiality (up to \oldstylenums{13} dimensions), with imbalance ratio from \oldstylenums9 to even \oldstylenums{40}.
 
 Wykorzystane klasyfikatory bazowe. Wyjaśnienie dlaczego odrzuciliśmy MLP (brak konwergencji na bardzo niewielkich zbiorach) i SVC (nie jest on naturalnie probabilistyczny, a jego probabilistyczna interpretacja jest silnie zakłamana przy niewielkich zbiorach danych). Stąd bierzemy GNB, kNN i DT, przy domyślnych parametrach z sklearn.
+
+\begin{itemize}
+	\item \emph{Gaussian Naive Bayes} (\textsc{gnb}) ---
+	\item \emph{k-Nearest Neighbors} (k\textsc{nn}) ---
+	\item \emph{Decision Tree Classifier} (\textsc{dtc}) ---
+\end{itemize}
 
 Powównawczo uczenie na pełnym zbiorze i zbiorach po pojedynczym under i oversamplingu.
 

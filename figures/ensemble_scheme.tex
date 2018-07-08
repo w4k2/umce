@@ -8,31 +8,38 @@
 
 % Original training set with division
 \node[el, minimum width=6cm](its) at (0,0) {Imbalanced training set};
-\node[el, text width=.5cm] (minc) at (-2.5, -1.5) {\tiny Min. class};
-\node[el, minimum width = 4.5cm] (majc) at (.75, -1.5) {\tiny Majority class};
+\node[el, text width=.75cm] (minc) at (-2.5, -1.5) {\tiny $MinC$};
+\node[el, minimum width = 4.5cm] (majc) at (.75, -1.5) {\tiny $MajC$};
 
 % Pre-methods
-\node[el, thick, minimum width = 4.5cm, minimum height = .5cm] (kfold) at (.75, -2.5)
+\node[el, thick, minimum width = 4.5cm, minimum height = .5cm, rounded corners=2mm] (kfold) at (.75, -2.5)
 {\scriptsize \textsc{shuffled k-fold division}};
-\node[el, thick, minimum width = 2cm, minimum height = .5cm] (oversampling) at (5, -2.5)
+\node[el, thick, minimum width = 2cm, minimum height = .5cm, rounded corners=2mm] (oversampling) at (5, -2.5)
 {\tiny \textsc{oversampling}};
 
 % Processed training sets
-\node[el, text width=.5cm] (majc0) at (-1, -3.5) {\tiny Maj. \#0};
-\node[el, text width=.5cm] (majc1) at (.5, -3.5) {\tiny Maj. \#1};
-\node[el, text width=.5cm] (majck) at (2.5, -3.5) {\tiny Maj. \#k};
-\node[el, text width=.5cm] (minc0) at (-1, -4.5) {\tiny Min. class};
-\node[el, text width=.5cm] (minc1) at (.5, -4.5) {\tiny Min. class};
-\node[el, text width=.5cm] (minck) at (2.5, -4.5) {\tiny Min. class};
+\node[el, text width=.75cm] (majc0) at (-1, -3.5) {\tiny$MajC_0$};
+\node[el, text width=.75cm] (majc1) at (.5, -3.5) {\tiny$MajC_1$};
+\node[el, text width=.75cm] (majck) at (2.5, -3.5) {\tiny$MajC_k$};
+\node[el, text width=.75cm] (minc0) at (-1, -4.5) {\tiny$MinC$};
+\node[el, text width=.75cm] (minc1) at (.5, -4.5) {\tiny$MinC$};
+\node[el, text width=.75cm] (minck) at (2.5, -4.5) {\tiny$MinC$};
+\node[text width = 1cm] at (1.65,-4)
+{\bfseries . . .};
+
 
 \node[el, minimum width = 2cm, minimum height=2cm, text width=1.75cm] (osts) at (5, -4)
 {\scriptsize Oversampled training set};
 
 % Member classifiers
-\node[el] (c0) at (-1, -6) {$\Psi_1$};
-\node[el] (c1) at (.5, -6) {$\Psi_2$};
-\node[el] (ck) at (2.5, -6) {$\Psi_k$};
-\node[el, minimum width=2cm] (co) at (5, -6) {$\Psi_{os}$};
+\node[el, rounded corners=5mm] (c0) at (-1, -6) {$\Psi_1$};
+\node[el, rounded corners=5mm] (c1) at (.5, -6) {$\Psi_2$};
+\node[el, rounded corners=5mm] (ck) at (2.5, -6) {$\Psi_k$};
+\node[el, minimum width=2cm, rounded corners=5mm] (co) at (5, -6) {$\Psi_{os}$};
+
+\node[text width = 1cm] at (1.65,-6)
+{\bfseries . . .};
+
 
 % Testing
 \node[el, minimum width=7.5cm](testset) at (2.25,-8) {Testing set};
@@ -41,9 +48,11 @@
 \node[el] (s1) at (.5, -9.5) {$s_2$};
 \node[el] (sk) at (2.5, -9.5) {$s_k$};
 \node[el, minimum width=2cm] (so) at (5, -9.5) {$s_{os}$};
+\node[text width = 1cm] at (1.65,-9.5)
+{\bfseries . . .};
 
 
-\node[el, minimum width=7.5cm, minimum height = .5, thick](fuser) at (2.25,-10.75)
+\node[el, minimum width=7.5cm, minimum height = .5, thick, rounded corners=2mm](fuser) at (2.25,-10.75)
 {\textsc{fuser}};
 
 \node[el, minimum width=7.5cm](dec) at (2.25,-11.75)
@@ -74,8 +83,6 @@
 \draw[->] (minc.south) |- (minc0.west);
 \draw[<->] (minc0) -- (minc1);
 \draw[<->] (minc1) -- (minck);
-\node[text width = 1cm] at (1.7,-4)
-{\bfseries . . .};
 
 
 \draw[->] (oversampling) -- (osts);
