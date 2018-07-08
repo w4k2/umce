@@ -4,6 +4,8 @@
 \usepackage{xcolor}
 \usepackage{colortbl}
 \usepackage{tabu}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 
 % ORIGINAL
 \usepackage{rotating}% for sideways figures and tables
@@ -31,11 +33,94 @@
 
 
  % Two authors with the same address
-  \author{\Name{Paweł Ksieniewicz} \Email{pawel.ksieniewicz@pwr.edu.pl}\\
-   \addr 
-   Department of Systems and Computer Networks\\
-   Faculty of Electronics\\
-   Wrocław University of Science and Technology\\
-   Wybrzeże Wyspiańskiego 27, 50-370 Wrocław, Poland.}
+\author{\Name{Paweł Ksieniewicz}
+	\Email{pawel.ksieniewicz@pwr.edu.pl}\\
+	\addr 
+	Department of Systems and Computer Networks\\
+	Faculty of Electronics\\
+	Wrocław University of Science and Technology
+}
 
 \editor{Editor's name}
+
+
+\newcommand{\restable}[2] {
+
+\scriptsize
+\centering
+\setlength{\tabcolsep}{3.5pt}
+\def\arraystretch{1.15}
+\begin{tabular}{@{}|ccccc|ccccc||ccccc|ccccc||ccc|r|}\hline%
+
+
+\multicolumn{10}{|c||}{\multirow{2}{*}{\bfseries Without oversampled set}} &
+\multicolumn{10}{ c||}{\multirow{2}{*}{\bfseries With oversampled set}} &
+\multirow{5}{*}{\rotatebox[origin=c]{-90}{\bfseries OS}} &
+\multirow{5}{*}{\rotatebox[origin=c]{-90}{\bfseries US}} &
+\multirow{5}{*}{\rotatebox[origin=c]{-90}{\bfseries Full}} &
+\multirow{5}{*}{\rotatebox[origin=c]{-90}{\bfseries Dataset}}
+	
+\\
+\multicolumn{10}{|c||}{}&
+\multicolumn{10}{c||}{}&
+\multicolumn{3}{c|}{}&
+	
+	 \\
+	
+	\multicolumn{5}{|c|}{\bfseries All members} &
+	\multicolumn{5}{c||}{\bfseries Reduced members} &
+	\multicolumn{5}{c|}{\bfseries All members} &
+	\multicolumn{5}{c||}{\bfseries Reduced members} 
+	& & & & \\
+	
+	\multirow{2}{*}{\rotatebox[origin=c]{-90}{\textsc{reg}}} &
+	\multirow{2}{*}{\rotatebox[origin=c]{-90}{\textsc{wei}}} &
+	\multirow{2}{*}{\rotatebox[origin=c]{-90}{\textsc{con}}} &
+	\multirow{2}{*}{\rotatebox[origin=c]{-90}{\textsc{nor}}} &
+	\multirow{2}{*}{\rotatebox[origin=c]{-90}{\textsc{nc}}} &
+
+	\multirow{2}{*}{\rotatebox[origin=c]{-90}{\textsc{reg}}} &
+	\multirow{2}{*}{\rotatebox[origin=c]{-90}{\textsc{wei}}} &
+	\multirow{2}{*}{\rotatebox[origin=c]{-90}{\textsc{con}}} &
+	\multirow{2}{*}{\rotatebox[origin=c]{-90}{\textsc{nor}}} &
+	\multirow{2}{*}{\rotatebox[origin=c]{-90}{\textsc{nc}}} &
+
+	\multirow{2}{*}{\rotatebox[origin=c]{-90}{\textsc{reg}}} &
+	\multirow{2}{*}{\rotatebox[origin=c]{-90}{\textsc{wei}}} &
+	\multirow{2}{*}{\rotatebox[origin=c]{-90}{\textsc{con}}} &
+	\multirow{2}{*}{\rotatebox[origin=c]{-90}{\textsc{nor}}} &
+	\multirow{2}{*}{\rotatebox[origin=c]{-90}{\textsc{nc}}} &
+
+	\multirow{2}{*}{\rotatebox[origin=c]{-90}{\textsc{reg}}} &
+	\multirow{2}{*}{\rotatebox[origin=c]{-90}{\textsc{wei}}} &
+	\multirow{2}{*}{\rotatebox[origin=c]{-90}{\textsc{con}}} &
+	\multirow{2}{*}{\rotatebox[origin=c]{-90}{\textsc{nor}}} &
+	\multirow{2}{*}{\rotatebox[origin=c]{-90}{\textsc{nc}}} 
+
+	& & & &
+	
+	\\
+	
+	&&&&&&&&&&&&&&&&&&&&&&&
+	\\\hline\hline
+	
+	\csvreader[head to column names,
+	           late after line=\csvifoddrow{\\}{\\\rowcolor{gray!10!white}},
+	           late after last line = \\\hline]
+	{results/#1.csv}{}%
+	{
+	
+	\ereg & \ewei & \ecwei & \enwei & \encwei &
+	\eregr & \eweir & \ecweir & \enweir & \encweir &
+	\eregos & \eweios & \ecweios & \enweios & \encweios & 
+	\eregros & \eweiros & \ecweiros & \enweiros & \encweiros &
+	\os & \us & \reg & 
+	
+	\multicolumn{1}{l|}{\emph{\dataset}}
+	
+	}%
+\end{tabular}
+\caption{Balanced accuracy scores obtained using #2 as a base classifier}
+
+  
+}
