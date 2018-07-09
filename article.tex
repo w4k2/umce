@@ -15,7 +15,14 @@
 \maketitle
 
 \begin{abstract}
-This is the abstract for this article.
+pierwsza linia abstraktu\\
+pierwsza linia abstraktu\\
+pierwsza linia abstraktu\\
+pierwsza linia abstraktu\\
+pierwsza linia abstraktu\\
+pierwsza linia abstraktu\\
+pierwsza linia abstraktu\\
+pierwsza linia abstraktu
 \end{abstract}
 \begin{keywords}
 classification, classifier ensemble, undersampling, imbalanced data
@@ -27,96 +34,72 @@ classification, classifier ensemble, undersampling, imbalanced data
 \section{Introduction}
 \label{sec:intro}
 
-%Most of the classification algorithms assume that there are no significant disproportions among instances from different classes. Nevertheless, in many practical tasks, we may observe that instances from one class (so-called \textit{majority class}) significantly outnumber the objects from remaining classes (\textit{minority class}). Most of traditional classifiers have a bias in favor of the majority class although more often the minority class is more interesting, because misidentification of an instance belonging to it is usually much more expensive than assigning an instance from majority class to minority one. A good example is an undetected fraud that would be more expensive than the cost of additional analysis of a correct transaction classified as fraudless transaction. Such a problem is known as imbalanced data classification \cite{Sun:2009,Wang:2017}, where an unequal number of instances from the examined classes plays a key role during the classifier learning. Various approaches have been proposed in the literature to tackle this challenging difficulty embedded in the nature of data. Usually, the researchers are focusing on maximizing the correct minority class classification. At the same time, performance on the majority class cannot be neglected.
+Most of existing classification models benefit from the assumption that there are no significant disparities between the classes of the considered problem. Nevertheless, in the real world, there are many situations in which the number of objects from one of the classes (called the \emph{majority class}) significantly exceeds the number of objects of the remaining classes (\emph{minority classes}), which often leads to decisions biased towards the \emph{majority class}. However, when considering cases such as spam filtering, medical tests or fraud detection, we may come to the conclusion that the cost of making an incorrect decision against a minority class is much greater than in other cases. The above-mentioned problem in the literature is called the \emph{imbalanced data classification} \citep{Wang:2017,Sun:2009}.
 
-%\begin{figure}[!h]
-%\floatconts
-%  {fig:east}
-%  {\caption{Easy separable imbalance dataset}}
-%  {\includegraphics[clip=true, trim = 11 11 11 11, width=0.25\linewidth]{figures/easy}}
-%\end{figure}
+Following work focuses on the binary classification of the highly imbalanced problems, with an \textsc{ir}(\emph{imbalanced ratio}) greater than \oldstylenums{9}, which is an important issue not only in the context of the construction of appropriate models, but even a proper quality measurement \citep{Elazmeh:2006}. One of the important problems is also the fact that the number of patterns in the \emph{minority class} may be so small that it will not allow to achieve the appropriate discriminatory power of the model, which may lead to its \emph{overfitting} \citep{Chen:2008}. Most of these problems are the subject of extensive research \citep{Bunkhumpornpat:2009,Chawla:2002}.
 
-%In this project we will focus on binary imbalanced problems, because this setup is the one most frequently studied in the literature and most commonly meet in practical problems, e.g.,\textit{fault detection} or \textit{spam filtering}. Therefore, another important issue is proposing an appropriate quality measure that would be adequate for imbalanced data classification \cite{Elazmeh:2006}.
+One of the possible approaches to solve such problems are \emph{inbuild mechanisms}, trying to adapt existing classification models to balance the accuracy between classes. Popular here is the learning approach without counter-examples, using \emph{one-class classification} \citep{Japkowicz:1995, Krawczyk:2014ins}, where the aim is to get to know the decision boundaries within minority classes. The solution may also be the \emph{cost sensitive solutions}, assuming the asymmetric loss function \citep{Lopez:2012,He:2009}.
 
-%In case of imbalanced data classification the disproportion between the different classes is not the sole issue of learning difficulties. One may easily came up with an example where the instance distributions from different classes are well-separated, as depicted in Fig.\ref{fig:easy}.
+Another approach, more connected with the following paper, is the group of \emph{data preprocessing methods}, which focuses on reducing the number of majority class objects (\emph{undersampling}) or generating patterns of minority class (\emph{oversampling}) to balance a dataset. Overview of methods from this group is presented in Figure \ref{fig:preproc}. 
 
-%Proposing a efficient classifier for such a task is not a challenge. Unfortunately, instances from the minority class often form clusters of an unknown structure that are scattered \cite{Napierala:2012}. Additional complication comes from the fact that during learning, the number of intactness from the minority class may be not sufficient enough for the learning algorithm to acquire the appropriate generalization level, which in effect can cause \emph{overfitting} \cite{Chen:2008}. All those problems are a focus of intense research \cite{Chawla:2002,Bunkhumpornpat:2009,Kubat:1997}.
+\begin{figure}[!h]
+\floatconts
+  {fig:preproc}
+  {\caption{Examples of data preprocessing methods.}}
+  {%
+    \subfigure[Original dataset]{\label{fig:overs}%
+    \includegraphics[clip=true, width=.25\linewidth,
+    				 trim = 11 141 141 11]
+    {figures/preprocessing}}%
+    \qquad
+    \subfigure[\textsc{smote}]{\label{fig:smote}%
+    \includegraphics[clip=true, width=.25\linewidth,
+    				 trim = 141 141 11 11]
+    {figures/preprocessing}}%
+      
+    \subfigure[\textsc{adasyn}]{\label{fig:adasyn}%
+    \includegraphics[clip=true, width=.25\linewidth,
+    				 trim = 11 11 141 141]
+    {figures/preprocessing}}%
+    \qquad
+    \subfigure[Undersampling]{\label{fig:unders}%
+    \includegraphics[clip=true, width=.25\linewidth,
+    				 trim = 141 11 11 141]
+    {figures/preprocessing}}%
+  }
+\end{figure}
 
-%Methods for imbalanced data classification can be divided into three main groups \cite{Lopez:2012}.
+These algorithms are addressing the task of balancing the number of objects within the problem classes. In the case of basic \emph{oversampling}, new objects are created as random copies of those already existing in the training set\footnote{Since the characteristics of the new patterns will be identical to those already present in the dataset, we can consider Figure \ref{fig:overs}, an illustration of the original dataset, also as the presentation of pattern distribution after oversampling.}. Currently, the most common kind of \emph{oversampling}  is \textsc{smote} \citep{Cha2002}, shown in Figure \ref{fig:smote}, creating new, synthetic objects based on $k$ averaged examples nearest to a random points from the space occupied by a minority class. An active version of \textsc{smote} is the \textsc{adasyn} algorithm \citep{He:2008}, shown in Figure \ref{fig:adasyn}, which takes into account the difficulty of synthetic samples. This approach allows to solve the problem of repeating samples in the training set, but can also lead to \emph{overfitting}, which is presented in Figure \ref{fig:wrongsmote}.
 
-%\begin{figure}[!h]
-%\floatconts
-%  {fig:subfigex}
-%  {\caption{Examples of data preprocessing methods.}}
-%  {%
-%    \subfigure[Original dataset]{\label{fig:circle}%
-%    \includegraphics[clip=true, width=.25\linewidth,
-%    				 trim = 11 141 141 11]
-%    {figures/preprocessing}}%
-%    \qquad
-%    \subfigure[\textsc{smote}]{\label{fig:circle}%
-%    \includegraphics[clip=true, width=.25\linewidth,
-%    				 trim = 141 141 11 11]
-%    {figures/preprocessing}}%
-       
-%    \subfigure[\textsc{adasyn}]{\label{fig:circle}%
-%    \includegraphics[clip=true, width=.25\linewidth,
-%    				 trim = 11 11 141 141]
-%    {figures/preprocessing}}%
-%    \qquad
-%    \subfigure[Undersampling]{\label{fig:circle}%
-%    \includegraphics[clip=true, width=.25\linewidth,
-%    				 trim = 141 11 11 141]
-%    {figures/preprocessing}}%
-%  }
-%\end{figure}
+\begin{figure}[htbp]
+\floatconts
+  {fig:wrongsmote}
+  {\caption{Example of wrong \textsc{smote} oversampling.}}
+  {%
+    \subfigure[Original dataset]{\label{fig:circle}%
+    \includegraphics[clip=true, width=.25\linewidth,
+    				 trim = 11 11 141 11]
+    {figures/wrong_smote}}%
+    \qquad
+    \subfigure[\textsc{smote}]{\label{fig:circle}%
+    \includegraphics[clip=true, width=.25\linewidth,
+    				 trim = 141 11 11 11]
+    {figures/wrong_smote}}%
+  }
+\end{figure}
 
-%\noindent\textbf{ Data preprocessing methods}. This approach focuses on reducing the number of objects in majority class (\emph{undersampling}) or generating new objects of the minority class (\textit{oversampling}). The difference between \emph{under-} and \emph{oversampling} is presented in Fig. \ref{fig:over-under}.
+In the case of \emph{undersampling}, shown in Figure \ref{fig:unders}, in which we draw as many objects from the majority class as in the minority class, there is no risk of erroneous mixing of the distribution of classes.
 
-%These mechanisms have the objective of balancing the quantity of instances from considered classes. For oversampling, new instances are random copies of existing ones or are generated in a guided manner. The most popular method is \textsc{smote} \cite{Cha2002} algorithm, which creates new instances on a basis of existing ones by slightly modifying the values of their attributes. As a result, new artificial examples that are in compliance with the minority class distribution are generated.  Other oversampling methods are \textsc{adasyn} \cite{He:2008}, in which a difficulty of an object for the classifying model is considered or \textsc{ramob}oost \cite{Chen:2010}. Unfortunately, methods such as \textsc{smote} may lead to changes in the characteristic of the minority class and in result to \emph{overfitting} the classifier, what was shown in Fig. \ref{fig:wrong_smote}.
-
-%\begin{figure}[htbp]
-%\floatconts
-%  {fig:subfigex}
-%  {\caption{Example of wrong \textsc{smote} oversampling.}}
-%  {%
-%    \subfigure[Original dataset]{\label{fig:circle}%
-%    \includegraphics[clip=true, width=.25\linewidth,
-%    				 trim = 11 11 141 11]
-%    {figures/wrong_smote}}%
-%    \qquad
-%    \subfigure[\textsc{smote}]{\label{fig:circle}%
-%    \includegraphics[clip=true, width=.25\linewidth,
-%    				 trim = 141 11 11 11]
-%    {figures/wrong_smote}}%
-%  }
-%\end{figure}
-
-%W WYPADKU UNDERSAMPLINGU NIE WYSTEPUJE RYZYKO NIESŁUSZNEGO ROZSZERZENIA PRZESTRZENI WZORCÓW KLASY MNIEJSZOŚCIOWEJ, CO MA MIEJSCE W CHOĆBY SMOTE.
-
-%Several modifications of \textsc{smote} have been proposed that are able to identify the instances to be copied in a more intelligent fashion such as \emph{Borderline}\textsc{smote} \cite{Han:2005}. It generates new instances from the minority class close to the decision border. \emph{Safe-Level} \textsc{smote} \citep{Bunkhumpornpat:2009} and \textsc{ln}-\textsc{smote} \cite{Maciejewski:2011} reduce the probability of generating synthetic instances of the minority class in areas where the predominant objects are that of the majority class. It is worth noticing that our team proposed two novel solutions to this problem: \textsc{rbo} \cite{koziarski2017radial} and \textsc{ccr} that enforce instances from the majority-class to be relocated from the areas where the minority-class instances are present \cite{Koziarski:2017amcs}. Methods of \emph{undersampling} are built around the idea of randomly removing the instances from the majority-class or removing them from the areas in such way that the  quality of the classifier is not disrupted using neighbor analysis.%\todo{W opisie metod przetwarzania wstępnego skupiamy się chyba wyłącznie na \emph{oversamplingu}.}\todo{Nie uwzględniłem czystego losowego \emph{oversamplingu}, bo skoro powtarza istniejące już obiekty, to ilustracja byłaby bezsensowna.}
-
-%\begin{figure}[hbt]
-%\centering
-%\includegraphics[width=.9\linewidth]{figures/smote}
-%\caption{Example of oversampling using \textsc{smote}}
-%\end{figure}
-
-%\noindent\textbf{ Inbuilt mechanisms.} In this approach existing classification algorithms are adapted for imbalanced problems ensuring balanced accuracy for instances from both classes. Two of the most popular areas of research of this methods are using one-class classification  \cite{Japkowicz:1995}, usually known as learning without counterexamples, where the goal is to learn the minority class decision areas and because of the frequently assumed regular, closed shape of the decision borders is adequate to the clusters created by minority classes \cite{Krawczyk:2014ins}. The disproportion between the number of instances in classes is then omitted. Another approach is the (\textit{cost sensitive}) classification, where the algorithm takes into account the asymmetrical loss function that assigns a higher cost to a misclassification of an instance form a minority class \cite{Krawczyk:2014,Lopez:2012,He:2009,Zhou:2006}. Unfortunately such methods can cause a reverse bias towards the minority class. 
-
-%Worth noting are methods based on ensemble classification \cite{Wozniak:2014}, like \emph{\textsc{smote}Boost} \cite{Chawla:2003} and \emph{AdaBoost.NC} \cite{Wang:2010}%, or \emph{Multi-objective Genetic Programing Ensemble} \cite{Bhowan:2013}.
-
-%\noindent\textbf{Hybrid methods.} They combine the advantages of methods using data pre-processing with the classification methods. The most popular category is the hybridisation of \emph{under-} and \emph{oversampling} with ensemble classifiers \cite{Galar:2012}. This approach allows the data to be independently  processed for each of the base model. Algorithms formed on modifications of \emph{Bagging} and \emph{Boosting} \cite{Chawla:2003} enjoy wide popularity.
+The last group of methods to be mentioned are \emph{hybrid approaches}, combining \emph{over-} and \emph{undersampling} algorithms with \emph{ensemble classifiers} \citep{Galar:2012}. The \emph{Bagging} and \emph{Boosting} variants, such as \emph{AdaBoost.NC} \citep{Wang:2010} or \emph {SMOTEBoost} \citep{Chawla:2003}, have become particularly popular in this area.
 
 The main contributions of this work are:
 \begin{itemize}
-	\item metoda konstrukcji komitetu na k-fold,
-	\item propozycje reguł decyzyjnych,
-	\item metoda pruningu dostosowującego regułę decyzyjną do zbioru testowego
-	\item implementacja i ewaluacja eksperymentalna
+	\item a method of establishing a homogenous ensemble using a \emph{k-fold undersampling} of majority class,
+	\item proposition of five fusers to generate ensemble decision,
+	\item a pruning method adjusting the decision rule to the \emph{testing set},
+	\item implementation and experimental evaluation of proposed method.
 \end{itemize}
 
-\vspace{5em}
 %%%
 %%% Method
 %%%
@@ -163,91 +146,94 @@ It should be remembered that in such methods, it is necessary to use a \emph{pro
 Five fusers were proposed:
 
 \begin{enumerate}
-	\item \textbf{\textsc{reg}} --- regular accumulation of support, without weighing the members of the committee.
-	\item \textbf{\textsc{wei}} --- accumulation weighted after members of the committee.
+	\item \textbf{\textsc{reg}} --- regular accumulation of support.
+
+A basic method without weighing the members of a committee.
+
+	\item \textbf{\textsc{wei}} --- accumulation weighted after members of a committee.
 
 The weight of the classifier in the pool is its quality achieved for the training set. We can not use here the measure of \emph{accuracy}, which does not fit with the task of the imbalanced classification, so we decided on a \emph{balanced accuracy} \citep{brodersen2010balanced}.
 
 	\item \textbf{\textsc{nor}} --- same as \textbf{\textsc{wei}}, but with normalization of weights,
 
-Aby premiować klasyfikatory o wyższej mocy dyskryminacyjnej, wagi są poddawane normalizacji standardowej
+To reward classifiers with a higher \emph{discriminative power}, weights are subjected to normalization by a \emph{MinMaxScaler}.
 	
-	\item - con akumulacja ważona po wzorcach, przez kontrast,
-	\item - nci iloczyn znormalizowanych wag i kontrastu
-\end{enumerate}
-
-
-
-Wyliczanie wag. Accuracy się nie sprawdzi, więc BAC.
-
-Jeśli klasyfikujemy nie jeden wzorzec, a wiele, wagi mogą być też dla pojedynczych próbek, dla podbicia, a więc pojawia się KONTRAST. Mamy takie ładne ilustracje z badań, dodajmy rysunek chociaż jeden poglądowo.
-
+	\item \textbf{\textsc{con}} --- accumulation weighted by tested patterns.
+	
+In order to reward classifiers with greater \emph{"certainty"} for given object, the decision for each pattern is weighted by the absolute difference between class support, for the needs of research called the \emph{contrast}. Individual classifiers in the pool do not have to be better or worse for each of the tested patterns. This is illustrated in Figure \ref{fig:contrast}, where we can see two cases of ensembles. There are tested patterns on the X axis and classifiers in the pool on the Y axis. A white square means the \emph{contrast} of 1, and therefore a \emph{sure} decision, and the black square the \emph{contrast} of 0, which describes the pattern that is exactly on the decision boundary.
+	
 \begin{figure}[!h]
 \floatconts
-  {fig:subfigex}
-  {\caption{Rysunek.}}
+  {fig:contrast}
+  {\caption{Illustration of the \emph{contrast} in committees built on two different datasets.}}
   {%
-    \subfigure[O jaki ładny]{\label{fig:circle}%
+    \subfigure[Example of a \emph{"sure"} ensemble]{\label{fig:circle}%
     \includegraphics[width=.5\linewidth, trim = 0 100 0 100,clip=true]
     {figures/ecoli-0-1_vs_2-3-5}}%
-    \subfigure[A ten brzydki]{\label{fig:circle}%
+    \subfigure[Example of \emph{"unsure"} ensemble]{\label{fig:circle}%
     \includegraphics[width=.5\linewidth, trim = 0 100 0 100,clip=true]
     {figures/ecoli-0-3-4-6_vs_5}}%
   }
 \end{figure}
 
-Potencjał kontrastu dla danych strumieniowych.
+	
+	\item \textbf{\textsc{nci}} --- accumulation by a product of normalized weights \textbf{\textsc{nor}} and a \emph{contrast} \textbf{\textsc{con}}.
+\end{enumerate}
 
-Proponowane metody decyzyjne.
-
-W konstrukcji reguły decyzyjnej opieramy się na wsparciu dla klasy pozytywnej.
-
-
-Duża skala niezbalansowania to duża wielkość komitetu (ilustracja zależności na wykresie). Przyda się więc przycinanie (pruning).
+The proposed method of constructing the committee makes its size directly dependent on the \textsc{ir}, which, given the highly unbalanced data (for example with \textsc{ir} greater than 40), leads to the construction of an extensive hybrid model. Therefore, the method of prunning it to a smaller size was also considered.
 
 %%% Pruning
 \subsection{Ensemble pruning}
 
-Wyjaśnienie podejścia do pruningu. Wyliczamy wzajemną zależność statystyczną (Wilcoxonem) pomiędzy wsparciami członków i grupujemy -- omijając kwestię 1z2 2z3 ale nie 1z3 -- je uśredniając wsparcia w obrębie grupy. Uśredniamy też wagi i tworzymy tak dwupoziomowy system fuzji (potrzebna ilustracja).
-
-Pruning też jest w kontekście klasyfikacji wielu wzorców na raz.
-
-Wyjaśnienie kwestii wspomnianej wcześniej i uzasadnienie pominięcia jej analizy. 
-
+In typical methods of \emph{ensemble pruning}, it follows the phase of training the committee, for example, by eliminating the classifiers that achieve the lowest quality on the \emph{training} or separated \emph{validation set}. This paper proposes a method of \emph{response pruning} based on the assumption that during the testing phase we analyze not just a single test pattern, but the entire \emph{testing set}.
 
 \begin{figure}[!h]
 \floatconts
-  {fig:teximage}
+  {fig:scheme}
   {\caption{Scheme of using k-Fold division in ensemble construction}}
   {\input{figures/ensemble_scheme}}
 \end{figure}
 
+Ensemble, receiving a \emph{testing set}, generates \emph{support vectors} ($s_i$) for each classified object, so, with a binary problem, we can treat received support for one of the problem classes as values from the \emph{random variables} to analyze their mutual statistical dependence.
+
+In the proposed method, using the signed-rank test, we are \emph{clustering} the pool of $k$ (or $k+1$ on the \emph{oversampling} variation of a method) classifiers to $n$ groups (where $n\leq k$), to average the support and weight classes within groups to create a new set of supports from $s'_1$ to $s'_n$, passed later on to \emph{fuser}.
+
+The scheme of the full decision model of the proposed method is shown in Figure \ref{fig:scheme}.
+
+\begin{note}
+In the considered case of pruning, we ignore the possible situation in which the answer $\Psi_1$ is dependent on $\Psi_2$, the answer $\Psi_2$ is dependent on $ \Psi_3$, but $\Psi_1$ is not dependent on $\Psi_3$. This is an interesting issue that will be addressed in future research, but to simplify the proposal, a simplified approach has been used.
+\end{note}
+
 %%%
-%%% Introduction
+%%% Experiment design
 %%%
 \section{Experiment design}
 \label{sec:intro}
 
-For the experimental evaluation of the proposed method, a collection of datasets made available with \textsc{keel} \citep{alcala2011keel} was used, focusing on a section containing highly unbalanced data, with \textsc{ir} greater than 9 \citep{fernandez2009hierarchical}. From among the available datasets, \oldstylenums{40} were selected presenting only binary problems with quantitative attributes. A review of selected datasets, including information on their number of features, the number of patterns in each class and the unbalance ratio is presented in Table 1.
+For the experimental evaluation of the proposed method, a collection of datasets made available with \textsc{keel} \citep{alcala2011keel} was used, focusing on a section containing highly unbalanced data, with \textsc{ir} greater than 9 \citep{fernandez2009hierarchical}. From among the available datasets, \oldstylenums{40} were selected presenting only binary problems with quantitative attributes. A review of selected datasets, including information on their number of features, the number of patterns in each class and the unbalance ratio is presented in Table \ref{tab:datasets}.
+
 
 \begin{table}[!h]
-\footnotesize
+%\vspace{-.5em}
+\centering
+\rotatebox{90}{
+\scriptsize
 \centering
 \setlength{\tabcolsep}{3.5pt}
-\def\arraystretch{1}
-\begin{tabular}{@{}|rl|c|ccc|c|}\hline%
+\def\arraystretch{1.1}
+\begin{tabular}{@{}|c|ccc|c|l|@{}}\hline%
 
-\multirow{2}{*}{\bfseries \#} &
-\multirow{2}{*}{\bfseries Dataset} &
-\multirow{2}{*}{\bfseries Features} &
+\multirow{2}{*}{\rotatebox[origin=c]{-90}{\bfseries \textsc{ir}}} &
 \multicolumn{3}{c|}{\bfseries Samples} &
-\multirow{2}{*}{\bfseries \textsc{ir}} 	
+\multirow{2}{*}{\bfseries Features} &
+\multicolumn{1}{c|}{\multirow{2}{*}{\rotatebox[origin=c]{-90}{\bfseries DS}}}
 \\
 
-& & & 
+&
 \multicolumn{1}{c}{\textsc{all}} & 
 \multicolumn{1}{c}{\textsc{maj}} & 
 \multicolumn{1}{c|}{\textsc{min}} &
+& 
 
 	\\\hline\hline
 	
@@ -257,16 +243,18 @@ For the experimental evaluation of the proposed method, a collection of datasets
 	{results/datasets.csv}{}%
 	{
 	
-	\idx & \multicolumn{1}{l|}{\emph{\dbname}} & \features & 
+	\ir &
 	\multicolumn{1}{c}{\samples} & 
 	\multicolumn{1}{c}{\majority} & 
-	\multicolumn{1}{c|}{\minority} & \ir
-	
+	\multicolumn{1}{c|}{\minority} & 
+	\features & 
+	\multicolumn{1}{l|}{\emph{\dbname}}
+		
 	}%
-\end{tabular}
-\caption{Summary of imbalanced datasets chosen for evaluation}
+\end{tabular}}
+\caption{Summary of imbalanced datasets chosen for evaluation}\label{tab:datasets}
 \end{table}
-
+  
 
 As may be observed in the summary, the experiments are based on datasets with relatively small spatiality (up to \oldstylenums{13} dimensions), with imbalance ratio from \oldstylenums9 to even \oldstylenums{40}. The datasets provided by \textsc{keel}, to ensure easy comparison between results presented in various research, are already pre-divided into five parts, which forces the use of \emph{k-fold cross-validation} with $k = 5$ in experiments \citep{alpaydin2009introduction}.
 
@@ -281,8 +269,6 @@ Both the implementation of the proposed method and the experimental environment 
 \end{itemize}
 
 To provide a comparative result for the method presented in the following paper, each base classifier was also tested for the raw, imbalanced dataset and its under- and oversampled versions. Undersampling, due to high instability of results, was repeated five times on each fold. Used statistical analysis tool was a paired dependency between the classifier, which achieved the highest result and each of the others, calculated using the signed-rank \emph{Wilcoxon} test \citep{wilcoxon1945individual}.
-
-Pełną implementację zaproponowanej metody i skrypt umożliwiający powtórzenie zaprezentowanych badań można odnaleźć w repozytorium abc.
 
 The full implementation of the proposed method and the script allowing the repetition of the presented research may be found in the git repository available at \url{url-removed-due-to-} \url{blind-review}.
 
