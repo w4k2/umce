@@ -12,21 +12,21 @@ from imblearn import under_sampling, over_sampling, ensemble
 
 # Prepare experiments
 base_clfs = {
-    #"SVC" : svm.SVC(probability=True, gamma='scale'),
     "GNB" : naive_bayes.GaussianNB(),
-    "kNN" : neighbors.KNeighborsClassifier(),
+    #"kNN" : neighbors.KNeighborsClassifier(),
     "DTC" : tree.DecisionTreeClassifier(),
-    #"MLP" : neural_network.MLPClassifier(),
 }
 datasets = h.datasets_for_groups([
     "imb_IRhigherThan9p1",
     "imb_IRhigherThan9p2",
     #"imb_IRlowerThan9",
 ])
+
 header = ['dataset',
           'reg','regd',
           'us','usd',
           'os','osd',
+
           'ereg','eregd',
           'ewei','eweid',
           'ecwei','ecweid',
@@ -37,6 +37,7 @@ header = ['dataset',
           'ecweir','ecweird',
           'enweir','enweird',
           'encweir','encweird',
+
             'eregos','eregosd',
             'eweios','eweiosd',
             'ecweios','ecweiosd',
@@ -50,9 +51,13 @@ header = ['dataset',
 ]
 versions = 20
 
-for bclf in tqdm(base_clfs):
+summary = np.zeros((len(base_clfs), 23))
+
+for cid, bclf in enumerate(base_clfs):
+    print(cid, bclf)
     base_clf = base_clfs[bclf]
     csvfile = open('results/%s.csv' % bclf, 'w')
+
 
     writer = csv.writer(csvfile, delimiter=',')
     writer.writerow(header)
@@ -139,10 +144,26 @@ for bclf in tqdm(base_clfs):
                 leaders.append(i)
 
         #print(leaders)
+        summary[cid,leaders] += 1
 
         # Establish result row
         foo = [dataset[1].replace("_", "-")]
 
+        for i, bacv in enumerate(bacs):
+            c = ""
+            if i in leaders:
+                c = "\\cellcolor{green!25}"
+            else:
+                c = ""
+
+            if np.mean(bacv) >= 1:
+                foo += ["%s1" % (c)]
+            else:
+                foo += ["%s%s" % (c, ("%.3f" % np.mean(bacv))[1:])]
+            foo += [("%.3f" % np.std(bacv))[1:]]
+
+
+        """
         for i, bacv in enumerate(bacs):
             if i in leaders:
                 #print("LEADER")
@@ -152,6 +173,7 @@ for bclf in tqdm(base_clfs):
                 foo += [("%.3f" % np.mean(bacv))[1:]]
 
             foo += [("%.3f" % np.std(bacv))[1:]]
+        """
 
         #print(foo)
 
@@ -190,3 +212,61 @@ for bclf in tqdm(base_clfs):
         writer.writerow(foo)
         #exit()
     csvfile.close()
+
+
+full = np.array([summary[:,0]]).T
+us   = np.array([summary[:,1]]).T
+os   = np.array([summary[:,2]]).T
+
+without_os  = summary[:,3:13]
+with_os     = summary[:,13:]
+
+without_pru = summary[:,[ 3, 4, 5, 6, 7,13,14,15,16,17]]
+with_pru    = summary[:,[ 8, 9,10,11,12,18,19,20,21,22]]
+
+reg         = summary[:,[ 3, 8,13,18]]
+wei         = summary[:,[ 4, 9,14,19]]
+con         = summary[:,[ 5,10,15,20]]
+nor         = summary[:,[ 6,11,16,21]]
+nci         = summary[:,[ 7,12,17,22]]
+
+full = np.sum(full,axis=1)
+us   = np.sum(us,axis=1)
+os   = np.sum(os,axis=1)
+
+without_os  = np.max(without_os,axis=1)# / 10
+with_os     = np.max(with_os,axis=1)# / 10
+
+without_pru = np.max(without_pru,axis=1)# / 10
+with_pru    = np.max(with_pru,axis=1)# / 10
+
+reg         = np.max(reg,axis=1)# / 4
+wei         = np.max(wei,axis=1)# / 4
+con         = np.max(con,axis=1)# / 4
+nor         = np.max(nor,axis=1)# / 4
+nci         = np.max(nci,axis=1)# / 4
+
+end_summary = np.column_stack((full,us,os,
+                               without_os,with_os,
+                               without_pru,with_pru,
+                               reg,wei,con,nor,nci))
+
+clfs = ['GNB','DTC']
+header = ['clf',
+          'full','us','os',
+          'withoutos','withos',
+          'withoutpru', 'withpru',
+          'reg','wei','con','nor','nci']
+
+print(end_summary)
+
+print(header)
+csvfile = open('results/summary.csv', 'w')
+
+writer = csv.writer(csvfile, delimiter=',')
+writer.writerow(header)
+
+for i, row in enumerate(end_summary):
+    print([clfs[i]] + list(row.astype(int)))
+    writer.writerow([clfs[i]] + list(row))
+csvfile.close()

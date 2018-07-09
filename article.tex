@@ -264,7 +264,7 @@ Both the implementation of the proposed method and the experimental environment 
 
 \begin{itemize}
 	\item \emph{Gaussian Naive Bayes} (\textsc{gnb}) \citep{gnb},
-	\item \emph{k-Nearest Neighbors} (k\textsc{nn}) --- with \oldstylenums{5} neighbors and \emph{Minkowski} metric,
+	%\item \emph{k-Nearest Neighbors} (k\textsc{nn}) --- with \oldstylenums{5} neighbors and \emph{Minkowski} metric,
 	\item \emph{Decision Tree Classifier} (\textsc{dtc}) --- with \emph{Gini} criterion \citep{loh2011classification}.
 \end{itemize}
 
@@ -284,15 +284,54 @@ Przedstawienie tabel.
 	\restable{GNB}{\textsc{gnb}}
 \end{sidewaystable}
 
-\begin{sidewaystable}
-	\restable{kNN}{k\textsc{nn}}
-\end{sidewaystable}
+%\begin{sidewaystable}
+%	\restable{kNN}{k\textsc{nn}}
+%\end{sidewaystable}
 
 \begin{sidewaystable}
 	\restable{DTC}{\textsc{dtc}}
 \end{sidewaystable}
 
 Tabela zbiorcza zwycięstw w zależności od parametrów (z grupowaniem).
+
+
+\begin{table}[!h]
+%\vspace{-.5em}
+\centering
+\centering
+\setlength{\tabcolsep}{3.5pt}
+\def\arraystretch{1.1}
+\begin{tabular}{@{}|c|ccc|cc|cc|ccccc|@{}}\hline%
+clf & full & us & os & notos & wos & nopru & wpru & reg & wei & con & nor & nci\\\hline
+
+%\multirow{2}{*}{\rotatebox[origin=c]{-90}{\bfseries \textsc{ir}}} &
+%\multicolumn{3}{c|}{\bfseries Samples} &
+%\multirow{2}{*}{\bfseries Features} &
+%\multicolumn{1}{c|}{\multirow{2}{*}{\rotatebox[origin=c]{-90}{\bfseries DS}}}
+%\\
+
+%&
+%\multicolumn{1}{c}{\textsc{all}} & 
+%\multicolumn{1}{c}{\textsc{maj}} & 
+%\multicolumn{1}{c|}{\textsc{min}} &
+%& 
+
+%	\\\hline\hline
+	
+	\csvreader[head to column names,
+	           late after line=\csvifoddrow{\\}{\\\rowcolor{gray!10!white}},
+	           late after last line = \\\hline]
+	{results/summary.csv}{}%
+	{\clf &
+	\full & \us & \os &
+	\withoutos & \withos & 
+	\withoutpru & \withpru &
+	\reg & \wei & \con & \nor & \nci
+			
+	}%
+\end{tabular}
+\caption{NAZWIJŻE TABELĘ}\label{tab:summary}
+\end{table}
 
 Interpretacja wyników, czyli co zostało należycie uprawdopodobnione.
 

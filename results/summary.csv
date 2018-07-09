@@ -1,0 +1,3 @@
+clf,full,us,os,withoutos,withos,withoutpru,withpru,reg,wei,con,nor,nci
+GNB,3,1,1,10,12,6,12,6,5,6,11,12
+kNN,3,0,2,7,8,7,8,7,6,6,8,8
