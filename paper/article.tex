@@ -1,8 +1,5 @@
 \documentclass[pmlr]{jmlr}
 \input{_head}
-%TODO: Max 14 pages
-%TODO: No personal information or reference to the authors should be introduced in the submitted paper.
-%TODO: Submissions will be evaluated concerning their technical quality, relevance, significance, originality and clarity. 
 
 \title
 [Undersampled Majority Class Ensemble]
@@ -29,7 +26,7 @@ classification, classifier ensemble, undersampling, imbalanced data
 
 Most of existing classification models benefit from the assumption that there are no significant disparities between the classes of the considered problem. Nevertheless, in the real world, there are many situations in which the number of objects from one of the classes (called the \emph{majority class}) significantly exceeds the number of objects of the remaining classes (\emph{minority classes}), which often leads to decisions biased towards the \emph{majority class}. However, when considering cases such as spam filtering, medical tests or fraud detection, we may come to the conclusion that the cost of making an incorrect decision against a minority class is much greater than in other cases. The above-mentioned problem is called in the literature the \emph{imbalanced data classification} \citep{Wang:2017,Sun:2009}.
 
-Following work focuses on the binary classification of the highly imbalanced problems, with an \textsc{ir}(\emph{imbalanced ratio}) greater than \oldstylenums{9}, which is an important issue not only in the context of the construction of appropriate models, but even in a proper quality measurement \citep{Elazmeh:2006}. One of the important problems is also the fact that the number of patterns in the \emph{minority class} may be so small that it will not allow to achieve the appropriate discriminatory power of the model, which may lead to its \emph{overfitting} \citep{Chen:2008}. Most of these problems are the subject of extensive research \citep{Bunkhumpornpat:2009,Chawla:2002}.
+Following work focuses on the binary classification of the highly imbalanced problems, with an \textsc{ir} (\emph{imbalanced ratio}) greater than \oldstylenums{9}, which is an important issue not only in the context of the construction of appropriate models, but even in a proper quality measurement \citep{Elazmeh:2006}. One of the important problems is also the fact that the number of patterns in the \emph{minority class} may be so small that it will not allow to achieve the appropriate discriminatory power of the model, which may lead to its \emph{overfitting} \citep{Chen:2008}. Most of these problems are the subject of extensive research \citep{Bunkhumpornpat:2009,Chawla:2002}.
 
 One of the possible approaches to solve such problems are \emph{inbuild mechanisms}, trying to adapt existing classification models to balance the accuracy between classes. Popular solution of this kind is the learning approach without counter-examples, using \emph{one-class classification} \citep{Japkowicz:1995, Krawczyk:2014ins}, where the aim is to get to know the decision boundaries within \emph{minority classes}. The solution may also be the \emph{cost sensitive solutions}, assuming the asymmetric \emph{loss function} \citep{Lopez:2012,He:2009}.
 
@@ -40,7 +37,7 @@ Another approach, more connected with the scope of following paper, is the group
   {fig:preproc}
   {\caption{Examples of data preprocessing methods.}}
   {%
-    \subfigure[Original dataset]{\label{fig:overs}%
+    \subfigure[Original dataset / Oversampling]{\label{fig:overs}%
     \includegraphics[clip=true, width=.25\linewidth,
     				 trim = 11 141 141 11]
     {figures/preprocessing}}%
@@ -122,21 +119,17 @@ Given a dataset $DS$:
 
 After dividing the dataset with imbalanced binary problem into separated minority ($MinC$) and majority class ($MajC$), we are calculating the \textsc{ir} (\emph{imbalanced ratio}) between given classes. Rounding \textsc{ir} to the nearest integer value $k$ allows us to find the optimal division coefficient of the majority class samples in the context of maximizing the balance between the $MinC$ and any $MajC_i$ subsets while ensuring that all $MajC$ patterns are used in learning process with no overlapping between the individual $MajC_i$'s. Each of $k$ classifiers $\Psi_i$ is trained on union of $MinC$ and $MajC_i$ sets.
 
-\paragraph{Extending pool with oversampling} As an extension of the method of classifier ensemble construction, it is also proposed to extend its pool by a model learned on an additional data set, which is a full set of data subjected to \emph{oversampling}. It is worth testing if the knowledge gained from this method may be a valuable contribution to the ensemble decision. Due to impossibility of using \textsc{smote} or \textsc{adasyn} for oversampling the minority class with only few instances, only its basic variant will be employed. 
+\paragraph{Extending pool with oversampling} As an extension of the method of classifier ensemble construction, it is also proposed to expand its pool by a model learned on an additional data set, which is a full set of data subjected to \emph{oversampling}. It is worth testing if the knowledge gained from this method may be a valuable contribution to the ensemble decision. Due to impossibility of using \textsc{smote} or \textsc{adasyn} for oversampling the minority class with only few instances, only its basic variant will be employed. 
 
 %%% Fuser
 \subsection{Fuser design}
 
 In addition to ensuring the diversity of the classifiers pool, which we achieve by a homogenous committee built on disjoint subsets of the majority class supplemented by minority patterns, the key aspect of the hybrid classification system is the appropriate design of its \emph{fuser} -- the element responsible for making decisions based on the answers of the base classifiers.
 
-There are two groups of solutions here. The first are based on component \emph{decisions} of the committee, most often employing the \emph{majority voting} to produce a final decision. The decision rules proposed in this work are, however, part of the second group, where the \emph{fuser} is carried out by \emph{averaging} (or \emph{accumulating}) the \emph{support vectors} received from the members of a pool.
-
-\begin{note}
-It should be remembered that in such methods, it is necessary to use a \emph{probabilistic classification model}, which also requires \emph{quantitative} and not \emph{qualitative data}.
-\end{note}
+There are two groups of solutions here. The first are based on component \emph{decisions} of the committee, most often employing the \emph{majority voting} to produce a final decision. The decision rules proposed in this work are, however, part of the second group, where the \emph{fuser} is carried out by \emph{averaging} (or \emph{accumulating}) the \emph{support vectors} received from the members of a pool. It should be remembered that in such methods, it is necessary to use a \emph{probabilistic classification model}, which also requires \emph{quantitative} and not \emph{qualitative data}, so we need to reject classification algorithms such as \emph{Support Vector Machines}, whose probabilistic interpretation becomes reliable only in cases of large training sets.
 
 
-Five fusers were proposed:
+Five accumulative fusers were proposed to analyze:
 
 \begin{enumerate}
 	\item \textbf{\textsc{reg}} --- regular accumulation of support.
@@ -153,7 +146,7 @@ To reward classifiers with a higher \emph{discriminative power}, weights are sub
 	
 	\item \textbf{\textsc{con}} --- accumulation weighted by tested patterns.
 	
-In order to reward classifiers with greater \emph{"certainty"} for given object, the decision for each pattern is weighted by the absolute difference between class support, for the needs of research called the \emph{contrast}. Individual classifiers in the pool do not have to be better or worse for each of the tested patterns. This is illustrated in Figure \ref{fig:contrast}, where we can see two cases of ensembles. There are tested patterns on the X axis and classifiers in the pool on the Y axis. A white square means the \emph{contrast} of 1, and therefore a \emph{sure} decision, and the black square the \emph{contrast} of 0, which describes the pattern that is exactly on the decision boundary.
+In order to reward classifiers with greater \emph{"certainty"} for given object, the decision for each pattern is weighted by the absolute difference between class support, for the needs of research called the \emph{contrast}. Individual classifiers in the pool do not have to be better or worse for each of the tested patterns. This is illustrated in Figure \ref{fig:contrast}, where we can see two cases of ensembles. There are tested patterns on the \emph{X} axis and classifiers in the pool on the \emph{Y} axis. A white square means the \emph{contrast} of 1, and therefore a \emph{sure} decision, and the black square the \emph{contrast} of 0, which describes the pattern that is exactly on the decision boundary.
 	
 \begin{figure}[!h]
 \floatconts
@@ -170,10 +163,10 @@ In order to reward classifiers with greater \emph{"certainty"} for given object,
 \end{figure}
 
 	
-	\item \textbf{\textsc{nci}} --- accumulation by a product of normalized weights \textbf{\textsc{nor}} and a \emph{contrast} \textbf{\textsc{con}}.
+	\item \textbf{\textsc{nci}} --- accumulation weighted by a product of normalized weights and a \emph{contrast}.
 \end{enumerate}
 
-The proposed method of constructing the committee makes its size directly dependent on the \textsc{ir}, which, given the highly unbalanced data (for example with \textsc{ir} greater than 40), leads to the construction of an extensive hybrid model. Therefore, the method of prunning it to a smaller size was also considered.
+The proposed method of constructing the committee makes its size directly dependent on the \textsc{ir}, which, given the highly unbalanced data (for example with \textsc{ir} greater than \oldstylenums{40}), leads to the construction of an extensive hybrid model. Therefore, the method of prunning it to a smaller size was also considered.
 
 %%% Pruning
 \subsection{Ensemble pruning}
@@ -189,13 +182,9 @@ Typical methods of \emph{ensemble pruning} follow the phase of training the comm
 
 Ensemble, receiving a \emph{testing set}, generates \emph{support vectors} ($s_i$) for each classified object, so, with a binary problem, we can treat received support for one of the problem classes as values from the \emph{random variables} to analyze their mutual statistical dependence.
 
-In the proposed method, using the signed-rank test, we are \emph{clustering} the pool of $k$ (or $k+1$ on the \emph{oversampling} variation of a method) classifiers to $n$ groups (where $n\leq k$), to average the support and weight classes within groups to create a new set of supports from $s'_1$ to $s'_n$, passed later on to \emph{fuser}.
+In the proposed method, using the signed-rank test, we are \emph{clustering} the pool of $k$ (or $k+1$ on the \emph{oversampling} variation of a method) classifiers to $n$ groups (where $n\leq k$), to average the support and weight classes within groups to create a new set of supports from $s'_1$ to $s'_n$, passed later on to \emph{fuser}. It is important to denote, that in the considered case of pruning, we ignore the possible situation in which the answer $\Psi_1$ is dependent on $\Psi_2$, the answer $\Psi_2$ is dependent on $ \Psi_3$, but $\Psi_1$ is not dependent on $\Psi_3$. This is an interesting issue that will be addressed in future research, but to clarify the proposal, a simplified approach has been used.
 
 The scheme of the full decision model of the proposed method is shown in Figure \ref{fig:scheme}.
-
-\begin{note}
-In the considered case of pruning, we ignore the possible situation in which the answer $\Psi_1$ is dependent on $\Psi_2$, the answer $\Psi_2$ is dependent on $ \Psi_3$, but $\Psi_1$ is not dependent on $\Psi_3$. This is an interesting issue that will be addressed in future research, but to simplify the proposal, a simplified approach has been used.
-\end{note}
 
 %%%
 %%% Experiment design
@@ -203,7 +192,7 @@ In the considered case of pruning, we ignore the possible situation in which the
 \section{Experiment design}
 \label{sec:intro}
 
-For the experimental evaluation of the proposed method, a collection of datasets made available with \textsc{keel} \citep{alcala2011keel} was used, focusing on a section containing highly unbalanced data, with \textsc{ir} greater than 9 \citep{fernandez2009hierarchical}. From among the available datasets, \oldstylenums{40} were selected presenting only binary problems with quantitative attributes. A review of selected datasets, including information on their number of features, the number of patterns in each class and the unbalance ratio is presented in Table \ref{tab:datasets}.
+For the experimental evaluation of the proposed method, a collection of datasets made available with \textsc{keel} \citep{alcala2011keel} was used, focusing on a section containing highly unbalanced data, with \textsc{ir} greater than \oldstylenums{9} \citep{fernandez2009hierarchical}. From among the available datasets, \oldstylenums{40} were selected, presenting only binary problems with quantitative attributes. A review of selected datasets, including information on their number of features, the number of patterns in each class and the imbalance ratio is presented in Table \ref{tab:datasets}.
 
 
 \begin{table}[!h]
@@ -249,7 +238,7 @@ For the experimental evaluation of the proposed method, a collection of datasets
 \end{table}
   
 
-As may be observed in the summary, the experiments are based on datasets with relatively small spatiality (up to \oldstylenums{13} dimensions), with imbalance ratio from \oldstylenums9 to even \oldstylenums{40}. The datasets provided by \textsc{keel}, to ensure easy comparison between results presented in various research, are already pre-divided into five parts, which forces the use of \emph{k-fold cross-validation} with $k = 5$ in experiments \citep{alpaydin2009introduction}.
+As may be observed in the summary, the experiments are based on datasets with relatively small spatiality (up to \oldstylenums{13} dimensions), with imbalance ratio from \oldstylenums9 to even \oldstylenums{40}. The datasets provided by \textsc{keel}, to ensure easy comparison between results presented in various research, are already pre-divided into five parts, which forces the use of \emph{k-fold cross-validation} with \oldstylenums{5} folds in experiments \citep{alpaydin2009introduction}.
 
 In the task of imbalanced data classification, due to its strong bias towards majority class, the \emph{accuracy} measure is not a proper tool. For a reliable result, a measure of \emph{balanced accuracy} is given as test results.
 
@@ -261,9 +250,9 @@ Both the implementation of the proposed method and the experimental environment 
 	\item \emph{Decision Tree Classifier} (\textsc{dtc}) --- with \emph{Gini} criterion \citep{loh2011classification}.
 \end{itemize}
 
-To provide a comparative result for the method presented in the following paper, each base classifier was also tested for the raw, imbalanced dataset and its under- and oversampled versions. Undersampling, due to high instability of results, was repeated five times on each fold. Used statistical analysis tool was a paired dependency between the classifier, which achieved the highest result and each of the others, calculated using the signed-rank \emph{Wilcoxon} test \citep{wilcoxon1945individual}.
+To provide a comparative result for the method presented in the following paper, each base classifier was also tested for (\emph{i}) the raw, imbalanced dataset and its (\emph{ii}) under- and (\emph{iii}) oversampled versions. Undersampling, due to high instability of results, was repeated five times on each fold. Used statistical analysis tool was a paired dependency between the classifier, which achieved the highest result and each of the others, calculated using the signed-rank \emph{Wilcoxon} test \citep{wilcoxon1945individual}.
 
-The full implementation of the proposed method, content of the following paper and the script allowing the repetition of the presented research may be found in the git repository\footnote{\url{https://github.com/w4k2/umce}}.
+The full implementation of the proposed method, content of the following paper and the script allowing to reconstruct the presented research may be found in the \emph{git} repository\footnote{\url{https://github.com/w4k2/umce}}.
 
 %%%
 %%% Introduction
@@ -271,7 +260,7 @@ The full implementation of the proposed method, content of the following paper a
 \section{Experimental evaluation}
 \label{sec:intro}
 
-The results of the conducted research, for individual base classifiers, are presented in Tables 2 and 3. They were divided to present in individual sections a \emph{balanced accuracy} achieved by particular variations of the method proposed in the following paper. In the first division stage, we show the impact of inclusion of the classifier built on the \emph{oversampled} dataset, in the second, the use of the proposed pruning method, and in the third -- employed \emph{fuser}. This gave 20 variations of the algorithm.
+The results of the conducted research, for individual base classifiers, are presented in Tables \ref{tab:GNB} and \ref{tab:DTC}. They were divided to present in individual sections a \emph{balanced accuracy} achieved by particular variations of the method proposed in the following paper. In the first division stage, we show the impact of inclusion of the classifier built on the \emph{oversampled} dataset, in the second, the use of the proposed \emph{pruning} method, and in the third -- employed \emph{fuser}. It gave the number of \oldstylenums{20} algorithm variations.
 
 The presented results were supplemented by a balanced accuracy achieved by the classifier built on a full, \emph{imbalanced dataset} (\textbf{Full}), a set after \emph{undersampling} (\textbf{US}) and an \emph{oversampling} (\textbf{OS}). The table cells marked in green indicate the best result for a dataset or the result statistically dependent on it, calculated in accordance with previously described assumptions of the experiments.
 
@@ -279,20 +268,16 @@ The presented results were supplemented by a balanced accuracy achieved by the c
 	\restable{GNB}{\textsc{gnb}}
 \end{sidewaystable}
 
-%\begin{sidewaystable}
-%	\restable{kNN}{k\textsc{nn}}
-%\end{sidewaystable}
-
 \begin{sidewaystable}
 	\restable{DTC}{\textsc{dtc}}
 \end{sidewaystable}
 
-As we can see in Table 2, which presents the quality of classification using the \textsc{gnb} algorithm, there were only two datasets, where the lone best solution was to train the model on a full, imbalanced dataset, and one where the best solution were simple \emph{over-} or \emph{undersampling}. In the Table 3, showing the results for the \textsc{dtc} classifier, we are dealing with a similar situation in which, however, \emph{undersampling} never turns out to be the best in the tested pool of solutions.
+As we can see in Table \ref{tab:GNB}, which presents the quality of classification using the \textsc{gnb} algorithm, there were only two datasets, where the lone best solution was to train the model on a full, imbalanced dataset, and one where the best solution were simple \emph{over-} or \emph{undersampling}. In the Table \ref{tab:DTC}, showing the results for the \textsc{dtc} classifier, we are dealing with a similar situation in which, however, \emph{undersampling} never turns out to be the best in the tested pool of solutions.
 
-A clearer interpretation of the results may take place after the analysis of the Table 4, showing a summary of the results achieved by individual variations of the proposed method, presenting the number of datasets for which a given variation took part in the construction of the best solution.
+A clearer interpretation of the results may take place after the analysis of the Table \ref{tab:summary}, showing a summary of the results achieved by individual variations of the proposed method, presenting the number of datasets for which a given variation took part in the construction of the best solution.
 
 \begin{table}[!h]
-%\vspace{-.5em}
+
 \centering
 \centering
 \setlength{\tabcolsep}{3.5pt}
@@ -330,7 +315,7 @@ A clearer interpretation of the results may take place after the analysis of the
 \end{tabular}
 \caption{Final summary of proposed method variations. %Values in cells are numbers of datasets, in which method reached the best score, or have been statistically dependent to the best score. 
 \\\emph{(OSE -- extending pool by oversampled dataset, Pru. -- usage of pruning)}}\label{tab:summary}
-\vspace{-2em}
+\label{tab:summary}
 \end{table}
 
 As we may observe, both the extension of the classifier pool by the model built on the oversampled dataset as well as the proposed pruning method has a positive impact on the quality of the final solution. Among the fusers, the best performers are \textsc{nor} -- normalizing the calculated weights for the members of the committee and \textsc{nci} - complementing \textsc{nor} by the accumulated support with a stronger impact of the certainty of the decision. Even just the basic ensemble construction, in its simplest form without improvements and using the decision rule without weighting, allows to achieve better results than learning on a full dataset or basic under- or oversampling.
@@ -349,10 +334,7 @@ Computer experiments have shown, that this approach led to create a method solvi
 %%% Acknowledgements and references
 %%%
 \acks{
-	---\\
-	---\\
-	---
-	%This work was supported by the Polish National Science Center under the grant no. UMO- 2015/19/B/ST6/01597 and by the statutory fund of the Faculty of Electronics, Wroclaw University of Science and Technology.
+	This work was supported by the Polish National Science Center under the grant no. UMO- 2015/19/B/ST6/01597 and by the statutory fund of the Faculty of Electronics, Wroclaw University of Science and Technology.
 }
 \bibliography{bibliography}
 
