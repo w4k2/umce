@@ -5,9 +5,9 @@
 %TODO: Submissions will be evaluated concerning their technical quality, relevance, significance, originality and clarity. 
 
 \title
-[Homogenous ensemble of undersampled majority class]
+[Undersampled Majority Class Ensemble]
 {
-	Homogenous ensemble of undersampled majority class for highly imbalanced data binary classification%\titlebreak
+	\emph{Undersampled Majority Class Ensemble} for highly imbalanced binary classification%\titlebreak
 }
 
 \begin{document}
@@ -15,14 +15,7 @@
 \maketitle
 
 \begin{abstract}
-pierwsza linia abstraktu\\
-pierwsza linia abstraktu\\
-pierwsza linia abstraktu\\
-pierwsza linia abstraktu\\
-pierwsza linia abstraktu\\
-pierwsza linia abstraktu\\
-pierwsza linia abstraktu\\
-pierwsza linia abstraktu
+Following work tries to utilize an ensemble approach to solve a problem of highly imbalanced data classification. Paper contains a proposition of \textsc{umce} -- a multiple classifier system, based on \emph{k-fold division} of the \emph{majority class} to create a pool of classifiers breaking one \emph{imbalanced problem} into many balanced ones while ensuring the presence of all available samples in the training procedure. Algorithm, with five proposed fusers and a pruning method based on the statistical dependencies of the classifiers response on the testing set, was evaluated on the basis of the computer experiments carried out on the benchmark datasets and two different base classifiers.
 \end{abstract}
 \begin{keywords}
 classification, classifier ensemble, undersampling, imbalanced data
@@ -34,13 +27,13 @@ classification, classifier ensemble, undersampling, imbalanced data
 \section{Introduction}
 \label{sec:intro}
 
-Most of existing classification models benefit from the assumption that there are no significant disparities between the classes of the considered problem. Nevertheless, in the real world, there are many situations in which the number of objects from one of the classes (called the \emph{majority class}) significantly exceeds the number of objects of the remaining classes (\emph{minority classes}), which often leads to decisions biased towards the \emph{majority class}. However, when considering cases such as spam filtering, medical tests or fraud detection, we may come to the conclusion that the cost of making an incorrect decision against a minority class is much greater than in other cases. The above-mentioned problem in the literature is called the \emph{imbalanced data classification} \citep{Wang:2017,Sun:2009}.
+Most of existing classification models benefit from the assumption that there are no significant disparities between the classes of the considered problem. Nevertheless, in the real world, there are many situations in which the number of objects from one of the classes (called the \emph{majority class}) significantly exceeds the number of objects of the remaining classes (\emph{minority classes}), which often leads to decisions biased towards the \emph{majority class}. However, when considering cases such as spam filtering, medical tests or fraud detection, we may come to the conclusion that the cost of making an incorrect decision against a minority class is much greater than in other cases. The above-mentioned problem is called in the literature the \emph{imbalanced data classification} \citep{Wang:2017,Sun:2009}.
 
-Following work focuses on the binary classification of the highly imbalanced problems, with an \textsc{ir}(\emph{imbalanced ratio}) greater than \oldstylenums{9}, which is an important issue not only in the context of the construction of appropriate models, but even a proper quality measurement \citep{Elazmeh:2006}. One of the important problems is also the fact that the number of patterns in the \emph{minority class} may be so small that it will not allow to achieve the appropriate discriminatory power of the model, which may lead to its \emph{overfitting} \citep{Chen:2008}. Most of these problems are the subject of extensive research \citep{Bunkhumpornpat:2009,Chawla:2002}.
+Following work focuses on the binary classification of the highly imbalanced problems, with an \textsc{ir}(\emph{imbalanced ratio}) greater than \oldstylenums{9}, which is an important issue not only in the context of the construction of appropriate models, but even in a proper quality measurement \citep{Elazmeh:2006}. One of the important problems is also the fact that the number of patterns in the \emph{minority class} may be so small that it will not allow to achieve the appropriate discriminatory power of the model, which may lead to its \emph{overfitting} \citep{Chen:2008}. Most of these problems are the subject of extensive research \citep{Bunkhumpornpat:2009,Chawla:2002}.
 
-One of the possible approaches to solve such problems are \emph{inbuild mechanisms}, trying to adapt existing classification models to balance the accuracy between classes. Popular here is the learning approach without counter-examples, using \emph{one-class classification} \citep{Japkowicz:1995, Krawczyk:2014ins}, where the aim is to get to know the decision boundaries within minority classes. The solution may also be the \emph{cost sensitive solutions}, assuming the asymmetric loss function \citep{Lopez:2012,He:2009}.
+One of the possible approaches to solve such problems are \emph{inbuild mechanisms}, trying to adapt existing classification models to balance the accuracy between classes. Popular solution of this kind is the learning approach without counter-examples, using \emph{one-class classification} \citep{Japkowicz:1995, Krawczyk:2014ins}, where the aim is to get to know the decision boundaries within \emph{minority classes}. The solution may also be the \emph{cost sensitive solutions}, assuming the asymmetric \emph{loss function} \citep{Lopez:2012,He:2009}.
 
-Another approach, more connected with the following paper, is the group of \emph{data preprocessing methods}, which focuses on reducing the number of majority class objects (\emph{undersampling}) or generating patterns of minority class (\emph{oversampling}) to balance a dataset. Overview of methods from this group is presented in Figure \ref{fig:preproc}. 
+Another approach, more connected with the scope of following paper, is the group of \emph{data preprocessing methods}, which focuses on reducing the number of \emph{majority class} objects (\emph{undersampling}) or generating patterns of \emph{minority class} (\emph{oversampling}) to balance a dataset. Graphical overview of methods from this group is presented in Figure \ref{fig:preproc}. 
 
 \begin{figure}[!h]
 \floatconts
@@ -88,28 +81,28 @@ These algorithms are addressing the task of balancing the number of objects with
   }
 \end{figure}
 
-In the case of \emph{undersampling}, shown in Figure \ref{fig:unders}, in which we draw as many objects from the majority class as in the minority class, there is no risk of erroneous mixing of the distribution of classes.
+In the case of \emph{undersampling}, shown in Figure \ref{fig:unders}, in which we draw as many objects from the majority class as are present in the minority class, there is no risk of erroneous mixing of the classes distribution.
 
-The last group of methods to be mentioned are \emph{hybrid approaches}, combining \emph{over-} and \emph{undersampling} algorithms with \emph{ensemble classifiers} \citep{Galar:2012}. The \emph{Bagging} and \emph{Boosting} variants, such as \emph{AdaBoost.NC} \citep{Wang:2010} or \emph {SMOTEBoost} \citep{Chawla:2003}, have become particularly popular in this area.
+The last group of methods to be mentioned here are \emph{hybrid approaches}, combining \emph{over-} and \emph{undersampling} algorithms with \emph{ensemble classifiers} \citep{Galar:2012}. The \emph{Bagging} and \emph{Boosting} variants, such as \emph{AdaBoost.NC} \citep{Wang:2010} or \emph {SMOTEBoost} \citep{Chawla:2003}, have become particularly popular in this area.
 
 The main contributions of this work are:
 \begin{itemize}
-	\item a method of establishing a homogenous ensemble using a \emph{k-fold undersampling} of majority class,
-	\item proposition of five fusers to generate ensemble decision,
-	\item a pruning method adjusting the decision rule to the \emph{testing set},
+	\item a method of establishing a homogenous \emph{ensemble} using a \emph{k-fold undersampling} of \emph{majority class},
+	\item proposition of five \emph{fusers} to generate \emph{ensemble} decision,
+	\item a \emph{pruning} method adjusting the decision rule to the \emph{testing set},
 	\item implementation and experimental evaluation of proposed method.
 \end{itemize}
 
 %%%
 %%% Method
 %%%
-\section{Homogenous ensemble based on undersampling the majority class}
+\section{\emph{Undersampled Majority Class Ensemble}}
 \label{sec:intro}
 \subsection{Establishing ensemble}
 
-Complex oversampling methods, such as \textsc{smote} or \textsc{adasyn}, despite the large possibilities in most of the imbalanced problems, are not applicable to extreme situations where the minority class is represented by only a few samples, which makes it impossible to designate the nearest neighbors to create a new synthetic object. This could lead to the use of \emph{undersampling} in such problems, but it is characterized, due to high randomness, by a strong instability in a situation of high \textsc{ir} (\emph{imbalance ratio}), which does not allow for the development of a reliable solution.
+Complex oversampling methods, such as \textsc{smote} or \textsc{adasyn}, despite the large possibilities in most of the problems in imbalanced domain, are not applicable to extreme situations where the \emph{minority class} is represented by only a few samples, which makes it impossible to designate the nearest neighbors to create a new synthetic object. This could lead to the use of \emph{undersampling} in such problems, but it is characterized, due to high randomness, by a strong instability in a situation of high \textsc{ir} (\emph{imbalance ratio}), which does not allow for the development of a reliable solution.
 
-A popular answer to the above-mentioned problem are the ensemble methods of \emph{Bagging} or \emph{Boosting}, characterized by random sampling with replacement of the training set, breaking a large problem, into a set of smaller problems. This work proposes a basic method, which also breaks the imbalanced task, but with ensuring the use of all the patterns available in the data set, but without a risk of overlapping. Its description can be found in Algorithm 1.
+A popular answer to the above-mentioned problem are the \emph{ensemble} methods of \emph{Bagging} or \emph{Boosting}, characterized by random sampling with replacement of the training set, breaking a large problem, into a set of smaller ones. This work proposes a basic method, which also breaks the imbalanced task, but with ensuring the use of all the patterns available in the data set, but without a risk of overlapping. Its description may be found in Algorithm 1.
 
 \begin{algorithm}[!h]
 \caption{Training classifier ensemble from multiple balanced training datasets separated from one imbalanced dataset of binary problem}\label{alg:moore}
@@ -129,7 +122,7 @@ Given a dataset $DS$:
 
 After dividing the dataset with imbalanced binary problem into separated minority ($MinC$) and majority class ($MajC$), we are calculating the \textsc{ir} (\emph{imbalanced ratio}) between given classes. Rounding \textsc{ir} to the nearest integer value $k$ allows us to find the optimal division coefficient of the majority class samples in the context of maximizing the balance between the $MinC$ and any $MajC_i$ subsets while ensuring that all $MajC$ patterns are used in learning process with no overlapping between the individual $MajC_i$'s. Each of $k$ classifiers $\Psi_i$ is trained on union of $MinC$ and $MajC_i$ sets.
 
-\paragraph{Extending pool with oversampling} As an extension of the method of classifier ensemble construction, it is also proposed to extend its pool by a model learned on an additional data set, which is a full set of data subjected to \emph{oversampling}. It is worth testing if the knowledge gained from this method may be a valuable contribution to the ensemble decision. Due to impossibility to use \textsc{smote} or \textsc{adasyn} for oversampling the minority class with only few instances, only its basic variant will be used. 
+\paragraph{Extending pool with oversampling} As an extension of the method of classifier ensemble construction, it is also proposed to extend its pool by a model learned on an additional data set, which is a full set of data subjected to \emph{oversampling}. It is worth testing if the knowledge gained from this method may be a valuable contribution to the ensemble decision. Due to impossibility of using \textsc{smote} or \textsc{adasyn} for oversampling the minority class with only few instances, only its basic variant will be employed. 
 
 %%% Fuser
 \subsection{Fuser design}
@@ -152,7 +145,7 @@ A basic method without weighing the members of a committee.
 
 	\item \textbf{\textsc{wei}} --- accumulation weighted after members of a committee.
 
-The weight of the classifier in the pool is its quality achieved for the training set. We can not use here the measure of \emph{accuracy}, which does not fit with the task of the imbalanced classification, so we decided on a \emph{balanced accuracy} \citep{brodersen2010balanced}.
+The weight of the classifier in the pool is its quality achieved for the training set. We can not use here the measure of \emph{accuracy}, which does not fit with the task of the imbalanced classification, so a \emph{balanced accuracy} was chosen \citep{brodersen2010balanced}.
 
 	\item \textbf{\textsc{nor}} --- same as \textbf{\textsc{wei}}, but with normalization of weights,
 
@@ -185,12 +178,12 @@ The proposed method of constructing the committee makes its size directly depend
 %%% Pruning
 \subsection{Ensemble pruning}
 
-In typical methods of \emph{ensemble pruning}, it follows the phase of training the committee, for example, by eliminating the classifiers that achieve the lowest quality on the \emph{training} or separated \emph{validation set}. This paper proposes a method of \emph{response pruning} based on the assumption that during the testing phase we analyze not just a single test pattern, but the entire \emph{testing set}.
+Typical methods of \emph{ensemble pruning} follow the phase of training the committee, for example, by eliminating the classifiers that achieve the lowest quality on the \emph{training} or separated \emph{validation set}. This paper proposes a method of \emph{response pruning} based on the assumption that during the testing phase we analyze not just a single test pattern, but the entire \emph{testing set}.
 
 \begin{figure}[!h]
 \floatconts
   {fig:scheme}
-  {\caption{Scheme of using k-Fold division in ensemble construction}}
+  {\caption{Diagram of \emph{Undersampled Majority Class Ensemble} structure}}
   {\input{figures/ensemble_scheme}}
 \end{figure}
 
@@ -260,7 +253,7 @@ As may be observed in the summary, the experiments are based on datasets with re
 
 In the task of imbalanced data classification, due to its strong bias towards majority class, the \emph{accuracy} measure is not a proper tool. For a reliable result, a measure of \emph{balanced accuracy} is given as test results.
 
-Both the implementation of the proposed method and the experimental environment have been constructed using the \emph{scikit-learn} library \citep{scikit-learn} in version \emph{0.20.dev0}\footnote{At the time of conducting research, only the development version of the package already has the implementation of \emph{balanced accuracy} measure.}. Among the available classification models, the \textsc{mlp} (\emph{Multilayer Perceptron}) and \textsc{svc} (\emph{Support Vector Machine}) were rejected. First one was not able to build a correct model due to the lack of convergence on the small datasets (minority class of data chosen for experiments is often represented by only two patterns in cross-validated folds) and second, whose probabilistic interpretation is measurable only with sufficiently large data sets, did not allow credible construction of a fuser. As base classifiers, the following algorithms were used:
+Both the implementation of the proposed method and the experimental environment have been constructed using the \emph{scikit-learn} library \citep{scikit-learn} in version \emph{0.20.dev0}\footnote{At the time of conducting research, only the development version of the package already has the implementation of \emph{balanced accuracy} measure.}. Among the available classification models, the \textsc{mlp} (\emph{Multilayer Perceptron}) and \textsc{svc} (\emph{Support Vector Machine}) were rejected. First one was not able to build a correct model due to the lack of convergence on the small datasets (minority class of data chosen for experiments is often represented by only two patterns in cross-validated folds) and second one, whose probabilistic interpretation is measurable only with sufficiently large data sets, did not allow credible construction of a fuser. As base classifiers, the following algorithms were used:
 
 \begin{itemize}
 	\item \emph{Gaussian Naive Bayes} (\textsc{gnb}) \citep{gnb},
@@ -278,7 +271,9 @@ The full implementation of the proposed method and the script allowing the repet
 \section{Experimental evaluation}
 \label{sec:intro}
 
-Przedstawienie tabel.
+The results of the conducted research, for individual base classifiers, are presented in Tables 2 and 3. They were divided to present in individual sections a \emph{balanced accuracy} achieved by particular variations of the method proposed in the following paper. In the first division stage, we show the impact of inclusion of the classifier built on the \emph{oversampled} dataset, in the second, the use of the proposed pruning method, and in the third -- employed \emph{fuser}. This gave 20 variations of the algorithm.
+
+The presented results were supplemented by a balanced accuracy achieved by the classifier built on a full, \emph{imbalanced dataset} (\textbf{Full}), a set after \emph{undersampling} (\textbf{US}) and an \emph{oversampling} (\textbf{OS}). The table cells marked in green indicate the best result for a dataset or the result statistically dependent on it, calculated in accordance with previously described assumptions of the experiments.
 
 \begin{sidewaystable}
 	\restable{GNB}{\textsc{gnb}}
@@ -292,8 +287,9 @@ Przedstawienie tabel.
 	\restable{DTC}{\textsc{dtc}}
 \end{sidewaystable}
 
-Tabela zbiorcza zwycięstw w zależności od parametrów (z grupowaniem).
+As we can see in Table 2, which presents the quality of classification using the \textsc{gnb} algorithm, there were only two datasets, where the lone best solution was to train the model on a full, imbalanced dataset, and one where the best solution were simple \emph{over-} or \emph{undersampling}. In the Table 3, showing the results for the \textsc{dtc} classifier, we are dealing with a similar situation in which, however, \emph{undersampling} never turns out to be the best in the tested pool of solutions.
 
+A clearer interpretation of the results may take place after the analysis of the Table 4, showing a summary of the results achieved by individual variations of the proposed method, presenting the number of datasets for which a given variation took part in the construction of the best solution.
 
 \begin{table}[!h]
 %\vspace{-.5em}
@@ -301,22 +297,23 @@ Tabela zbiorcza zwycięstw w zależności od parametrów (z grupowaniem).
 \centering
 \setlength{\tabcolsep}{3.5pt}
 \def\arraystretch{1.1}
-\begin{tabular}{@{}|c|ccc|cc|cc|ccccc|@{}}\hline%
-clf & full & us & os & notos & wos & nopru & wpru & reg & wei & con & nor & nci\\\hline
+\begin{tabular}{@{}|l|ccc||cc|cc|ccccc|@{}}\hline%
 
-%\multirow{2}{*}{\rotatebox[origin=c]{-90}{\bfseries \textsc{ir}}} &
-%\multicolumn{3}{c|}{\bfseries Samples} &
-%\multirow{2}{*}{\bfseries Features} &
-%\multicolumn{1}{c|}{\multirow{2}{*}{\rotatebox[origin=c]{-90}{\bfseries DS}}}
-%\\
+\multirow{2}{*}{\bfseries Classifier} & 
+\multirow{2}{*}{\bfseries Full} & 
+\multirow{2}{*}{\bfseries US} & 
+\multirow{2}{*}{\bfseries OS} & 
 
-%&
-%\multicolumn{1}{c}{\textsc{all}} & 
-%\multicolumn{1}{c}{\textsc{maj}} & 
-%\multicolumn{1}{c|}{\textsc{min}} &
-%& 
-
-%	\\\hline\hline
+\multicolumn{2}{c|}{\bfseries OSE} &
+\multicolumn{2}{c|}{\bfseries Pru.} &
+\multicolumn{5}{c|}{\bfseries Fuser} 
+%notos & wos & nopru & wpru & reg & wei & con & nor & nci
+ \\
+ &&&&
+ \textsc{no} & \textsc{yes} &
+ \textsc{no} & \textsc{yes} &
+ \textsc{reg} & \textsc{wei} & \textsc{con} & \textsc{nor} & \textsc{nci}
+ \\\hline\hline
 	
 	\csvreader[head to column names,
 	           late after line=\csvifoddrow{\\}{\\\rowcolor{gray!10!white}},
@@ -330,31 +327,31 @@ clf & full & us & os & notos & wos & nopru & wpru & reg & wei & con & nor & nci\
 			
 	}%
 \end{tabular}
-\caption{NAZWIJŻE TABELĘ}\label{tab:summary}
+\caption{Final summary of proposed method variations. %Values in cells are numbers of datasets, in which method reached the best score, or have been statistically dependent to the best score. 
+\\\emph{(OSE -- extending pool by oversampled dataset, Pru. -- usage of pruning)}}\label{tab:summary}
+\vspace{-2em}
 \end{table}
 
-Interpretacja wyników, czyli co zostało należycie uprawdopodobnione.
+As we may observe, both the extension of the classifier pool by the model built on the oversampled dataset as well as the proposed pruning method has a positive impact on the quality of the final solution. Among the fusers, the best performers are \textsc{nor} -- normalizing the calculated weights for the members of the committee and \textsc{nci} - complementing \textsc{nor} by the accumulated support with a stronger impact of the certainty of the decision. Even just the basic ensemble construction, in its simplest form without improvements and using the decision rule without weighting, allows to achieve better results than learning on a full dataset or basic under- or oversampling.
 
 %%%
 %%% Conclusions
 %%%
 \section{Conclusions}
 \label{sec:intro}
-Co zostało zaproponowane.
 
-Na co pozwala taka metoda.
+This paper presents \textsc{umce} (\emph{Undersampled Majority Class Ensemble}) -- a hybrid method for solving the problem of binary classification of datasets with a high \emph{imbalance ratio}, based on \emph{k-fold division} of the \emph{majority class} samples to create an \emph{ensemble} of classifiers breaking one \emph{imbalanced problem} into many balanced problems. The basic division method has been supplemented with a variant extending the pool with the \emph{oversampled} dataset and the \emph{post-pruning} method based on the analysis of the statistical dependencies of the classifiers response on the testing set. For the \emph{ensemble} it were also proposed five different \emph{fusers}.
 
-Do jakich rezultatów doprowadziła.
-
-Jakie są plany na przyszłość (czyli co robisz w wakacje).
-
-
+Computer experiments have shown, that this approach led to create a method solving targeted problem and able to outperform other possible basic solutions, proving that it may be employed for real-life appliance.
 
 %%%
 %%% Acknowledgements and references
 %%%
 \acks{
-	Acknowledgements go here.
+	---\\
+	---\\
+	---
+	%This work was supported by the Polish National Science Center under the grant no. UMO- 2015/19/B/ST6/01597 and by the statutory fund of the Faculty of Electronics, Wroclaw University of Science and Technology.
 }
 \bibliography{bibliography}
 
