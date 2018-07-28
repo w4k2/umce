@@ -18,11 +18,10 @@ header = [
 ]
 datasets = h.datasets_for_groups([
     "imb_IRhigherThan9p1",
-    "imb_IRhigherThan9p2",
-    #"imb_IRlowerThan9",
+    "imb_IRhigherThan9p2"
 ])
 
-csvfile = open('results/datasets.csv', 'w')
+csvfile = open('csv/datasets.csv', 'w')
 writer = csv.writer(csvfile, delimiter=',')
 writer.writerow(header)
 

@@ -1,9 +1,5 @@
 all:
-	python -W ignore process.py
-
-analyze:
 	python -W ignore analyze.py
-
-pass:
+	python -W ignore process.py
 	cp plots/* paper/figures/
 	cp csv/* paper/

@@ -93,12 +93,6 @@ class UndersampledEnsemble():
         self.nrweights = scaler.fit_transform(self.rweights.reshape(-1,1)).T[0]
         self.nrweights += .01
 
-        #print("Weights")
-        #print(self.weights)
-        #print(self.nweights)
-        #print(self.rweights)
-        #print(self.nrweights)
-
         # Contrasts
         self.contrast = np.abs(self.esc[:,:,0] - self.esc[:,:,1])
         self.rcontrast = np.abs(self.resc[:,:,0] - self.resc[:,:,1])

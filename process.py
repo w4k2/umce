@@ -13,20 +13,17 @@ from imblearn import under_sampling, over_sampling, ensemble
 # Prepare experiments
 base_clfs = {
     "GNB" : naive_bayes.GaussianNB(),
-    #"kNN" : neighbors.KNeighborsClassifier(),
     "DTC" : tree.DecisionTreeClassifier(),
 }
 datasets = h.datasets_for_groups([
     "imb_IRhigherThan9p1",
-    "imb_IRhigherThan9p2",
-    #"imb_IRlowerThan9",
+    "imb_IRhigherThan9p2"
 ])
 
 header = ['dataset',
           'reg','regd',
           'us','usd',
           'os','osd',
-
           'ereg','eregd',
           'ewei','eweid',
           'ecwei','ecweid',
@@ -37,17 +34,16 @@ header = ['dataset',
           'ecweir','ecweird',
           'enweir','enweird',
           'encweir','encweird',
-
-            'eregos','eregosd',
-            'eweios','eweiosd',
-            'ecweios','ecweiosd',
-            'enweios','enweiosd',
-            'encweios','encweiosd',
-            'eregros','eregrosd',
-            'eweiros','eweirosd',
-            'ecweiros','ecweirosd',
-            'enweiros','enweirosd',
-            'encweiros','encweirosd'
+          'eregos','eregosd',
+          'eweios','eweiosd',
+          'ecweios','ecweiosd',
+          'enweios','enweiosd',
+          'encweios','encweiosd',
+          'eregros','eregrosd',
+          'eweiros','eweirosd',
+          'ecweiros','ecweirosd',
+          'enweiros','enweirosd',
+          'encweiros','encweirosd'
 ]
 versions = 20
 
@@ -56,20 +52,16 @@ summary = np.zeros((len(base_clfs), 23))
 for cid, bclf in enumerate(base_clfs):
     print(cid, bclf)
     base_clf = base_clfs[bclf]
-    csvfile = open('results/%s.csv' % bclf, 'w')
+    csvfile = open('csv/%s.csv' % bclf, 'w')
 
 
     writer = csv.writer(csvfile, delimiter=',')
     writer.writerow(header)
     for dataset in tqdm(datasets):
-        #print(dataset)
         # Load dataset
         X, y, X_, y_ = h.load_dataset(dataset)
 
         # Prepare place for results
-        #r_bac = []
-        #os_bac = []
-        #us_bac = []
         bacs = [[] for i in range(versions+3)]
 
         # Iterate folds
@@ -125,12 +117,6 @@ for cid, bclf in enumerate(base_clfs):
             for i, ens_bac in enumerate(ens_bacs):
                 bacs[i+3].append(ens_bac)
 
-        #print("REG (%.3f +- %.3f)" % (np.mean(r_bac), np.std(r_bac)))
-        #print("US_ (%.3f +- %.3f)" % (np.mean(us_bac), np.std(us_bac)))
-        #print("OS_ (%.3f +- %.3f)\n--- Ens" % (np.mean(os_bac), np.std(os_bac)))
-        #for row in bacs:
-        #    print("ENS (%.3f +- %.3f)" % (np.mean(row), np.std(row)))
-
         mean_bacs = [np.mean(i) for i in bacs]
         std_bacs = [np.std(i) for i in bacs]
 
@@ -143,12 +129,10 @@ for cid, bclf in enumerate(base_clfs):
             if pvalue < p_treshold or np.isnan(pvalue):
                 leaders.append(i)
 
-        #print(leaders)
         summary[cid,leaders] += 1
 
         # Establish result row
         foo = [dataset[1].replace("_", "-")]
-
         for i, bacv in enumerate(bacs):
             c = ""
             if i in leaders:
@@ -162,58 +146,11 @@ for cid, bclf in enumerate(base_clfs):
                 foo += ["%s%s" % (c, ("%.3f" % np.mean(bacv))[1:])]
             foo += [("%.3f" % np.std(bacv))[1:]]
 
-
-        """
-        for i, bacv in enumerate(bacs):
-            if i in leaders:
-                #print("LEADER")
-                foo += ["\\cellcolor{green!25}" + ("%.3f" % np.mean(bacv))[1:]]
-            else:
-                #print("Moron")
-                foo += [("%.3f" % np.mean(bacv))[1:]]
-
-            foo += [("%.3f" % np.std(bacv))[1:]]
-        """
-
-        #print(foo)
-
-        """
-        foo = [dataset[1].replace("_", "-")] + [("%.3f" % i)[1:] for i in
-                             [np.mean(bacs[0]),np.std(bacs[0]),
-                             np.mean(bacs[1]),np.std(bacs[1]),
-                             np.mean(bacs[2]),np.std(bacs[2]),
-                             np.mean(bacs[3]),np.std(bacs[3]),
-                             np.mean(bacs[4]),np.std(bacs[4]),
-                             np.mean(bacs[5]),np.std(bacs[5]),
-                             np.mean(bacs[6]),np.std(bacs[6]),
-                             np.mean(bacs[7]),np.std(bacs[7]),
-                             np.mean(bacs[8]),np.std(bacs[8]),
-                             np.mean(bacs[9]),np.std(bacs[9]),
-                             np.mean(bacs[10]),np.std(bacs[10]),
-                             np.mean(bacs[11]),np.std(bacs[11]),
-                             np.mean(bacs[12]),np.std(bacs[12]),
-                             np.mean(bacs[13]),np.std(bacs[13]),
-                             np.mean(bacs[14]),np.std(bacs[14]),
-                             np.mean(bacs[15]),np.std(bacs[15]),
-                             np.mean(bacs[16]),np.std(bacs[16]),
-                             np.mean(bacs[17]),np.std(bacs[17]),
-                             np.mean(bacs[18]),np.std(bacs[18]),
-                             np.mean(bacs[19]),np.std(bacs[19]),
-                             np.mean(bacs[20]),np.std(bacs[20]),
-                             np.mean(bacs[21]),np.std(bacs[21]),
-                             np.mean(bacs[22]),np.std(bacs[22])]]
-        """
-        #print(foo)
-        #exit()
-        #print(len(header))
-        #print(len(foo))
-        #print(header)
-        #print(foo)
         writer.writerow(foo)
-        #exit()
     csvfile.close()
 
 
+# Summary
 full = np.array([summary[:,0]]).T
 us   = np.array([summary[:,1]]).T
 os   = np.array([summary[:,2]]).T
@@ -261,7 +198,7 @@ header = ['clf',
 print(end_summary)
 
 print(header)
-csvfile = open('results/summary.csv', 'w')
+csvfile = open('csv/summary.csv', 'w')
 
 writer = csv.writer(csvfile, delimiter=',')
 writer.writerow(header)
