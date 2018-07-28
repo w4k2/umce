@@ -1,4 +1,6 @@
 *.DS_Store
+*.ps
+*.dvi
 # Byte-compiled / optimized / DLL files
 .texpadtmp/
 __pycache__/
